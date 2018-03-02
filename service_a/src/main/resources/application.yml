@@ -1,0 +1,15 @@
+spring:
+    application:
+        name: service-a
+    zipkin:
+      enabled: true
+    sleuth:
+      baggage-keys: X-B3-CONVID
+logging:
+  level:
+    org.springframework.web: DEBUG
+  pattern:
+#  #add here the custom convid to ensure that the logger will create the wanted pattern:
+    level: "%X[${spring.zipkin.service.name:${spring.application.name:-}},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{X-B3-CONVID:-}]%5p"
+server:
+  port: 8081
