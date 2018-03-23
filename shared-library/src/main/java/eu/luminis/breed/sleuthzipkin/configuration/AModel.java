@@ -1,4 +1,4 @@
-package eu.luminis.breed.sleuthzipkin.web;
+package eu.luminis.breed.sleuthzipkin.configuration;
 
 public class AModel {
 
@@ -6,6 +6,9 @@ public class AModel {
   private String b;
   private String c;
   private String d;
+
+  public AModel() {
+  }
 
   public AModel(String a, String b, String c, String d) {
     this.a = a;
@@ -28,5 +31,21 @@ public class AModel {
 
   public String getD() {
     return d;
+  }
+
+  public void setA(String a) {
+    this.a = a;
+  }
+
+  public void setB(String b) {
+    this.b = b;
+  }
+
+  public void setC(String c) {
+    this.c = c;
+  }
+
+  public void setD(String d) {
+    this.d = d;
   }
 }

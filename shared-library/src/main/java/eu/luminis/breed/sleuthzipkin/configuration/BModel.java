@@ -1,4 +1,4 @@
-package eu.luminis.breed.sleuthzipkin.web;
+package eu.luminis.breed.sleuthzipkin.configuration;
 
 public class BModel {
 

@@ -13,7 +13,7 @@ import org.springframework.web.filter.GenericFilterBean;
 public class DefaultConfiguration {
 
   /**
-   * Ensure that the resttemplate(s) is/are available as bean for autoconfiguration in {@link org.springframework.cloud.sleuth.instrument.web.client.TraceWebClientAutoConfiguration},
+   * Ensure that the resttemplate(s) is/are available as bean(s) for autoconfiguration in {@link org.springframework.cloud.sleuth.instrument.web.client.TraceWebClientAutoConfiguration},
    * so that it is configured to pass trace to next service(s) that are being called
    */
   @Bean

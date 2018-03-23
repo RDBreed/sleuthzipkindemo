@@ -4,7 +4,7 @@ spring:
     zipkin:
       enabled: true
     sleuth:
-      baggage-keys: X-B3-CONVID
+      propagation-keys: X-B3-CONVID
 logging:
   level:
     org.springframework.web: INFO

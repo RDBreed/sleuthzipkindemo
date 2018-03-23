@@ -89,5 +89,6 @@
     <module>service_c</module>
     <module>service_d</module>
     <module>shared-library</module>
+    <module>cucumbertests</module>
   </modules>
 </project>
