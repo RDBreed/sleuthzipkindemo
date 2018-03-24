@@ -3,7 +3,7 @@ package eu.luminis.breed.sleuthzipkin;
 import brave.Tracer;
 import brave.sampler.Sampler;
 import eu.luminis.breed.sleuthzipkin.configuration.CustomTraceFilter;
-import org.springframework.cloud.sleuth.instrument.web.TraceFilter;
+import org.springframework.cloud.sleuth.instrument.web.TraceWebServletAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -27,7 +27,7 @@ public class DefaultConfiguration {
    * We load this filter after the Tracefilter (which is the filter which actually starts/continues/handles our traces & spans.
    */
   @Bean
-  @Order(TraceFilter.ORDER + 1)
+  @Order(TraceWebServletAutoConfiguration.TRACING_FILTER_ORDER + 1)
   public GenericFilterBean customTraceFilter(Tracer tracer) {
     return new CustomTraceFilter(tracer);
   }

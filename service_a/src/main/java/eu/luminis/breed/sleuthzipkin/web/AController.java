@@ -1,7 +1,7 @@
 package eu.luminis.breed.sleuthzipkin.web;
 
-import eu.luminis.breed.sleuthzipkin.configuration.AModel;
-import eu.luminis.breed.sleuthzipkin.configuration.BModel;
+import eu.luminis.breed.sleuthzipkin.AModel;
+import eu.luminis.breed.sleuthzipkin.BModel;
 import java.net.URISyntaxException;
 import org.apache.http.client.utils.URIBuilder;
 import org.slf4j.Logger;

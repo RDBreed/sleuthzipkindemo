@@ -2,24 +2,15 @@ package eu.luminis.breed.sleuthzipkin.configuration;
 
 import brave.Tracer;
 import brave.sampler.Sampler;
+import eu.luminis.breed.sleuth.PreTracingFilter;
 import org.springframework.cloud.sleuth.instrument.web.TraceWebServletAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.GenericFilterBean;
 
 @Configuration
 public class DefaultConfiguration {
-
-  /**
-   * Ensure that the resttemplate(s) is/are available as bean(s) for autoconfiguration in {@link org.springframework.cloud.sleuth.instrument.web.client.TraceWebClientAutoConfiguration},
-   * so that it is configured to pass trace to next service(s) that are being called
-   */
-  @Bean
-  public RestTemplate getRestTemplate() {
-    return new RestTemplate();
-  }
 
   /**
    * Define a sampler. Default is NEVER, but for this demonstration we use ALWAYS.
@@ -30,6 +21,10 @@ public class DefaultConfiguration {
     return Sampler.ALWAYS_SAMPLE;
   }
 
+  @Bean
+  public PreTracingFilter preTracingFilter() {
+    return new PreTracingFilter();
+  }
 
   /**
    * Our custom trace filter which will ensure a conversation id can be passed along.

@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import cucumber.api.PendingException;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -13,7 +12,6 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import eu.luminis.breed.sleuthzipkin.configuration.AModel;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

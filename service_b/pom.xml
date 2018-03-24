@@ -14,7 +14,7 @@
   </dependencies>
   <packaging>jar</packaging>
 
-  <name>sleuth-zipkin</name>
+  <name>sleuth-zipkin-b</name>
   <description>Demo project for usage of Sleuth &amp; Zipkin</description>
 
   <parent>

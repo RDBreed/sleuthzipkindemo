@@ -5,9 +5,15 @@
 
 	<artifactId>shared-library</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.ws</groupId>
+      <artifactId>spring-ws-core</artifactId>
+    </dependency>
+	</dependencies>
+  <packaging>jar</packaging>
 
-	<name>sleuth-zipkin</name>
+	<name>shared-library</name>
 	<description>Demo project for usage of Sleuth &amp; Zipkin</description>
 
 	<parent>
