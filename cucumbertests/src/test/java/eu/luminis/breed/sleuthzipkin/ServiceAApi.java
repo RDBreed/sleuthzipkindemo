@@ -1,6 +1,5 @@
 package eu.luminis.breed.sleuthzipkin;
 
-import static eu.luminis.breed.sleuthzipkin.configuration.CustomTraceFilter.TAG_NAME;
 import static org.junit.Assert.fail;
 
 import java.io.BufferedReader;
@@ -18,6 +17,7 @@ import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 public class ServiceAApi {
+  public static final String TAG_NAME = "X-B3-CONVID";
 
   private HttpHeaders httpHeaders = new HttpHeaders();
   private RestTemplate restTemplate;

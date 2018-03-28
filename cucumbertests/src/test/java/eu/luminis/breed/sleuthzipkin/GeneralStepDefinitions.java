@@ -1,6 +1,7 @@
 package eu.luminis.breed.sleuthzipkin;
 
-import static eu.luminis.breed.sleuthzipkin.configuration.CustomTraceFilter.TAG_NAME;
+
+import static eu.luminis.breed.sleuthzipkin.ServiceAApi.TAG_NAME;
 
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
