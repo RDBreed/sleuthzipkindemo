@@ -38,6 +38,7 @@ public class BreakfastController {
         restTemplate.getForObject(servicesConfiguration.getURIServiceB("breakfast/toastedbread"), ToasterInformation.class);//will initiate new span
     String preferredDoneness =
         restTemplate.getForObject(servicesConfiguration.getURIServiceC("breakfast/toastedbread"), String.class);//will initiate new span
+    logger.info("Returning toasted bread");
     return new ToastedBread("80 degrees", toasterInformation.getPower(), toasterInformation.getCount(), preferredDoneness);//will return to the first span & finish the trace
   }
 
@@ -46,13 +47,15 @@ public class BreakfastController {
     logger.info("Getting a fried egg with some information");
     String eggTemperature = restTemplate.getForObject(servicesConfiguration.getURIServiceB("breakfast/eggtemperature"), String.class);
     String countryOfEgg = restTemplate.getForObject(servicesConfiguration.getURIServiceC("breakfast/countryofegg"), String.class);
+    logger.info("Returning fried egg");
     return new FriedEgg(eggTemperature, countryOfEgg);
   }
 
   @GetMapping("bacon")
   public FriedBacon getFriedBacon() throws URISyntaxException {
-    logger.info("Getting a fried egg with some information");
+    logger.info("Getting a fried bacon with some information");
     String origin = restTemplate.getForObject(servicesConfiguration.getURIServiceD("breakfast/baconorigin"), String.class);
+    logger.info("Returning fried bacon");
     return new FriedBacon(origin);
   }
 
