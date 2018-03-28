@@ -1,27 +1,5 @@
 spring:
     application:
         name: service-c
-    zipkin:
-      enabled: true
-    sleuth:
-      propagation-keys: X-B3-CONVID
-logging:
-  level:
-    org.springframework.web: INFO
-  pattern:
-    level: "%5p [${spring.zipkin.service.name:${spring.application.name:-}},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{X-B3-CONVID:-}]"
 server:
   port: 8083
-services:
-  baseurl: http://
-  soapservice:
-    port: 8085
-    url: localhost
----
-spring:
-  profiles: docker
-services:
-  baseurl: http://
-  soapservice:
-    url: soap-service
-    port: 8085

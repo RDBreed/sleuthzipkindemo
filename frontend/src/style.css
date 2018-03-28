@@ -1,0 +1,225 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #ff8859;
+  padding: 0;
+  margin: 0 0;
+}
+
+#content {
+  background: url(images/background.gif) repeat-x;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0 0;
+}
+
+#toaster {
+  padding-left: 250px;
+  padding-top: 190px;
+  width: 750px;
+  float: left;
+}
+
+#toast-back {
+  display: block;
+  padding: 0;
+  margin: 0 0;
+  position: relative;
+  z-index: 1;
+}
+
+#toast-front {
+  display: block;
+  padding: 0;
+  margin: 0 0;
+  position: relative;
+  z-index: 2;
+}
+
+#toast-button-holder {
+  position: absolute;
+  padding-top: 330px;
+  padding-left: 40px;
+  z-index: 3;
+}
+
+#toast-button {
+  background: url('images/toast-button.png') no-repeat;
+  width: 113px;
+  height: 92px;
+  cursor: pointer;
+  border: none;
+}
+
+#toast-button:focus {
+  border: none;
+  outline: none;
+}
+
+#toast-button-holder.toasted {
+  animation-name: toasted-button;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+}
+
+#toast-button-holder.toastit {
+  animation-name: toast-it-button;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+}
+
+#toast-bread-holder {
+  position: absolute;
+  padding-top: 15px;
+  padding-left: 145px;
+  z-index: 2;
+}
+
+#toast-bread {
+  background: url('images/light.png') no-repeat;
+  width: 312px;
+  height: 298px;
+  cursor: pointer;
+}
+
+#toast-bread-holder.toastit {
+  animation-name: toast-it;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+}
+
+#toast-bread-holder.toasted {
+  animation-name: toasted;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+}
+
+#toast-machine {
+  padding-top: 265px;
+  padding-left: 55px;
+}
+
+#shadow {
+  margin-top: -160px;
+}
+
+#frying {
+  float: left;
+  width:1100px;
+}
+
+#part-of-kitchen {
+  padding-top: 700px;
+}
+
+#stove{
+  float:right;
+  width:750px;
+  height:200px;
+}
+#food{
+  float:left;
+  padding-top:100px;
+}
+#gas-stove {
+  position: absolute;
+  padding-top: 100px;
+  z-index: 1;
+  padding-left: 75px;
+}
+
+#pan {
+  position: absolute;
+  z-index: 2;
+}
+
+#fried-bacon {
+  padding-left: 140px;
+  padding-top:25px;
+  position: absolute;
+  z-index: 3;
+}
+
+#fried-egg {
+  padding-left: 140px;
+  padding-top:25px;
+  position: absolute;
+  z-index: 3;
+}
+
+#food-plate{
+  float:left;
+  padding-top:760px;
+  padding-left:50px;
+}
+
+#egg-on-bread{
+  position:absolute;
+  z-index:3;
+  padding-top:35px;
+  padding-left:65px;
+}
+#bacon-on-bread{
+  position: absolute;
+  z-index:2;
+  padding-top:15px;
+  padding-left:75px;
+}
+#brown-bread{
+  position:absolute;
+  z-index:1;
+  padding-top:20px;
+  padding-left:45px;
+}
+#egg,#bacon,#fried-bacon,#fried-egg{
+  cursor:pointer;
+}
+#fried-egg,#fried-bacon,#plate,#brown-bread,#bacon-on-bread,#egg-on-bread{
+  display: none;
+}
+
+@keyframes toast-it {
+  from {
+    padding-top: 15px;
+  }
+  to {
+    padding-top: 315px;
+  }
+}
+
+@keyframes toasted {
+  0% {
+    padding-top: 315px;
+  }
+  50% {
+    padding-top: 0px;
+  }
+  100% {
+    padding-top: 15px;
+  }
+}
+
+@keyframes toast-it-button {
+  from {
+    padding-top: 330px;
+  }
+  to {
+    padding-top: 545px;
+  }
+}
+
+@keyframes toasted-button {
+  from {
+    padding-top: 545px;
+  }
+  to {
+    padding-top: 330px;
+  }
+}

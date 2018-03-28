@@ -1,0 +1,39 @@
+spring:
+    zipkin:
+      enabled: true
+    sleuth:
+      propagation-keys: X-B3-CONVID
+logging:
+  level:
+    org.springframework.web: DEBUG
+services:
+  baseurl: http://
+  b:
+    port: 8082
+    url: localhost
+  c:
+    port: 8083
+    url: localhost
+  d:
+    port: 8084
+    url: localhost
+  soapservice:
+    port: 8085
+    url: localhost
+---
+spring:
+  profiles: docker
+services:
+  baseurl: http://
+  b:
+    url: service-b
+    port: 8082
+  c:
+    url: service-c
+    port: 8083
+  d:
+    url: service-d
+    port: 8084
+  soapservice:
+    port: 8085
+    url: soap-service
