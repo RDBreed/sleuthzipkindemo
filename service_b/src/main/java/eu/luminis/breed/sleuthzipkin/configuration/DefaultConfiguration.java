@@ -2,6 +2,8 @@ package eu.luminis.breed.sleuthzipkin.configuration;
 
 import brave.Tracer;
 import brave.sampler.Sampler;
+import eu.luminis.breed.sleuthzipkin.configuration.ServicesConfiguration.ServicesConfigurationBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.sleuth.instrument.web.TraceWebServletAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,5 +41,18 @@ public class DefaultConfiguration {
   @Order(TraceWebServletAutoConfiguration.TRACING_FILTER_ORDER + 1)
   public GenericFilterBean customTraceFilter(Tracer tracer) {
     return new CustomTraceFilter(tracer);
+  }
+
+
+  @Bean
+  public ServicesConfiguration servicesConfiguration(
+      @Value("${services.baseurl}") String baseUrl,
+      @Value("${services.d.port}") Integer portD,
+      @Value("${services.d.url}") String urlD){
+    return ServicesConfigurationBuilder
+        .aServicesConfiguration()
+        .withBaseUrl(baseUrl)
+        .withServiceConfigurationD(new ServiceConfiguration(portD, urlD))
+        .build();
   }
 }

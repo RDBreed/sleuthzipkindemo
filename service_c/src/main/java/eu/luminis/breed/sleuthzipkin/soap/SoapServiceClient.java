@@ -1,4 +1,4 @@
-package eu.luminis.breed.sleuthzipkin.web;
+package eu.luminis.breed.sleuthzipkin.soap;
 
 import eu.luminis.breed.sleuthzipkin.GetCountryRequest;
 import eu.luminis.breed.sleuthzipkin.GetCountryResponse;

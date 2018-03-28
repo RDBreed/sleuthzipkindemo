@@ -1,12 +1,13 @@
 package eu.luminis.breed.sleuthzipkin.web;
 
-import eu.luminis.breed.sleuthzipkin.AModel;
-import eu.luminis.breed.sleuthzipkin.BModel;
+import eu.luminis.breed.sleuthzipkin.configuration.ServicesConfiguration;
+import eu.luminis.breed.sleuthzipkin.model.AModel;
+import eu.luminis.breed.sleuthzipkin.model.BModel;
 import java.net.URISyntaxException;
-import org.apache.http.client.utils.URIBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,25 +15,25 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping(path = "a")
+@CrossOrigin(origins = "http://localhost:8080")
 public class AController {
 
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
   private final RestTemplate restTemplate;
-  private static final String BASE_URL = "http://localhost";
-  private static final int PORT_B = 8082;
-  private static final int PORT_C = 8083;
+  private final ServicesConfiguration servicesConfiguration;
 
   @Autowired
-  public AController(RestTemplate restTemplate) {
+  public AController(RestTemplate restTemplate, ServicesConfiguration servicesConfiguration) {
     this.restTemplate = restTemplate;
+    this.servicesConfiguration = servicesConfiguration;
   }
 
   @GetMapping//by calling the service, a trace & span is started
   public AModel getAModel() throws URISyntaxException {
     logger.info("Getting a amodel");
-    BModel bModel = restTemplate.getForObject(new URIBuilder(BASE_URL).setPort(PORT_B).setPath("b").build(), BModel.class);//will initiate new span
-    String cValue = restTemplate.getForObject(new URIBuilder(BASE_URL).setPort(PORT_C).setPath("c").build(), String.class);//will initiate new span
+    BModel bModel = restTemplate.getForObject(servicesConfiguration.getURIServiceB("b"), BModel.class);//will initiate new span
+    String cValue = restTemplate.getForObject(servicesConfiguration.getURIServiceC("c"), String.class);//will initiate new span
     return new AModel("this is service a", bModel.getB(), cValue, bModel.getD());//will return to the first span & finish the trace
   }
 
@@ -42,8 +43,8 @@ public class AController {
   @GetMapping(path = "error")
   public AModel getAmodelButError() throws URISyntaxException {
     logger.info("Getting a amodel");
-    BModel bModel = restTemplate.getForObject(new URIBuilder(BASE_URL).setPort(PORT_B).setPath("b/error").build(), BModel.class);//will initiate new span
-    String cValue = restTemplate.getForObject(new URIBuilder(BASE_URL).setPort(PORT_C).setPath("c").build(), String.class);//will initiate new span
+    BModel bModel = restTemplate.getForObject(servicesConfiguration.getURIServiceB("b/error"), BModel.class);//will initiate new span
+    String cValue = restTemplate.getForObject(servicesConfiguration.getURIServiceC("c"), String.class);//will initiate new span
     return new AModel("this is service a", bModel.getB(), cValue, bModel.getD());//will return to the first span & finish the trace
   }
 
@@ -53,8 +54,8 @@ public class AController {
   @GetMapping(path = "performance")
   public AModel getAModelWithPerformanceLag() throws URISyntaxException {
     logger.info("Getting a amodel");
-    BModel bModel = restTemplate.getForObject(new URIBuilder(BASE_URL).setPort(PORT_B).setPath("b/performance").build(), BModel.class);//will initiate new span
-    String cValue = restTemplate.getForObject(new URIBuilder(BASE_URL).setPort(PORT_C).setPath("c/performance").build(), String.class);//will initiate new span
+    BModel bModel = restTemplate.getForObject(servicesConfiguration.getURIServiceB("b/performance"), BModel.class);//will initiate new span
+    String cValue = restTemplate.getForObject(servicesConfiguration.getURIServiceC("c/performance"), String.class);//will initiate new span
     return new AModel("this is service a", bModel.getB(), cValue, bModel.getD());//will return to the first span & finish the trace
   }
 

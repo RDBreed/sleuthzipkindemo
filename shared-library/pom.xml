@@ -22,4 +22,20 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
+	<build>
+		<plugins>
+			<!--Maven spring plugin: skip finding main class & building spring boot maven jar-->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<configuration>
+							<skip>true</skip>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

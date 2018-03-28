@@ -1,5 +1,6 @@
 package eu.luminis.breed.sleuthzipkin.web;
 
+import eu.luminis.breed.sleuthzipkin.soap.SoapServiceClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

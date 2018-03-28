@@ -1,8 +1,7 @@
-package eu.luminis.breed.sleuthzipkin;
+package eu.luminis.breed.sleuthzipkin.configuration;
 
 import brave.Tracer;
 import brave.sampler.Sampler;
-import eu.luminis.breed.sleuthzipkin.configuration.CustomTraceFilter;
 import org.springframework.cloud.sleuth.instrument.web.TraceWebServletAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

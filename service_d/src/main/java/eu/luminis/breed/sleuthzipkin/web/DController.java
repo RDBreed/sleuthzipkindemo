@@ -1,4 +1,4 @@
-package eu.luminis.breed.sleuthzipkin;
+package eu.luminis.breed.sleuthzipkin.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

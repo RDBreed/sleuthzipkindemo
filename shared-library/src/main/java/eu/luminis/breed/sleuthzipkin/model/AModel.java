@@ -1,4 +1,4 @@
-package eu.luminis.breed.sleuthzipkin;
+package eu.luminis.breed.sleuthzipkin.model;
 
 public class AModel {
 

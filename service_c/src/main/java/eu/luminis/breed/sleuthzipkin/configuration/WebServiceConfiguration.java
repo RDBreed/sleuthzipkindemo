@@ -1,7 +1,8 @@
 package eu.luminis.breed.sleuthzipkin.configuration;
 
 import eu.luminis.breed.sleuth.TraceWebServiceClientInterceptor;
-import eu.luminis.breed.sleuthzipkin.web.SoapServiceClient;
+import eu.luminis.breed.sleuthzipkin.soap.SoapServiceClient;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,9 +22,10 @@ public class WebServiceConfiguration {
   }
 
   @Bean
-  public SoapServiceClient soapServiceClient(Jaxb2Marshaller marshaller, TraceWebServiceClientInterceptor traceWebServiceInterceptor) {
+  public SoapServiceClient soapServiceClient(Jaxb2Marshaller marshaller, TraceWebServiceClientInterceptor traceWebServiceInterceptor, ServicesConfiguration servicesConfiguration)
+      throws URISyntaxException {
     SoapServiceClient client = new SoapServiceClient();
-    client.setDefaultUri("http://localhost:8085/ws");
+    client.setDefaultUri(servicesConfiguration.getURIServiceSoapService("ws").toString());
     client.setMarshaller(marshaller);
     client.setUnmarshaller(marshaller);
     client.setInterceptors(addTraceInterceptor(traceWebServiceInterceptor, client.getInterceptors()));

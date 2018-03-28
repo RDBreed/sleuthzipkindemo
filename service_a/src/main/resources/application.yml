@@ -13,3 +13,28 @@ logging:
     level: "%X[${spring.zipkin.service.name:${spring.application.name:-}},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{X-B3-CONVID:-}]%5p"
 server:
   port: 8081
+services:
+  baseurl: http://
+  b:
+    port: 8082
+    url: localhost
+  c:
+    port: 8083
+    url: localhost
+  d:
+    port: 8084
+    url: localhost
+---
+spring:
+  profiles: docker
+services:
+  baseurl: http://
+  b:
+    url: service-b
+    port: 8082
+  c:
+    url: service-c
+    port: 8083
+  d:
+    url: service-d
+    port: 8084
