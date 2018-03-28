@@ -9,8 +9,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.GenericFilterBean;
 
 @Configuration
-public class DefaultConfiguration {
-
+public class DefaultSleuthAndZipkinConfiguration {
   /**
    * Define a sampler. Default is NEVER, but for this demonstration we use ALWAYS.
    * This will export all spans to zipkin. See https://cloud.spring.io/spring-cloud-sleuth/multi/multi__sampling.html

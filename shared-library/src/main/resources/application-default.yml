@@ -1,6 +1,4 @@
 spring:
-    zipkin:
-      enabled: true
     sleuth:
       propagation-keys: X-B3-CONVID
 logging:
