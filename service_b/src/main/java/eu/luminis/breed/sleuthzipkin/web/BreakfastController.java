@@ -30,6 +30,7 @@ public class BreakfastController {
   public ToasterInformation getToastInformation() throws URISyntaxException {
     logger.info("Getting information about power used & total count of toasts made");
     int count = restTemplate.getForObject(servicesConfiguration.getURIServiceD("breakfast/totaltoasted"), Integer.class);//will initiate new span
+    logger.info("Returning information about power used & total count of toasts made");
     return new ToasterInformation("1500 kWh", count);//will return to the first span & finish the trace
   }
 
