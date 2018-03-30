@@ -21,9 +21,9 @@ body {
 }
 
 #toaster {
-  padding-left: 250px;
-  padding-top: 190px;
-  width: 750px;
+  padding-left: 125px;
+  padding-top: 145px;
+  width: 375px;
   float: left;
 }
 
@@ -45,15 +45,15 @@ body {
 
 #toast-button-holder {
   position: absolute;
-  padding-top: 330px;
-  padding-left: 40px;
+  padding-top: 165px;
+  padding-left: 20px;
   z-index: 3;
 }
 
 #toast-button {
   background: url('images/toast-button.png') no-repeat;
-  width: 113px;
-  height: 92px;
+  width: 56px;
+  height: 46px;
   cursor: pointer;
   border: none;
 }
@@ -77,15 +77,15 @@ body {
 
 #toast-bread-holder {
   position: absolute;
-  padding-top: 15px;
-  padding-left: 145px;
+  padding-top: 7px;
+  padding-left: 72px;
   z-index: 2;
 }
 
 #toast-bread {
   background: url('images/light.png') no-repeat;
-  width: 312px;
-  height: 298px;
+  width: 156px;
+  height: 149px;
   cursor: pointer;
 }
 
@@ -102,37 +102,37 @@ body {
 }
 
 #toast-machine {
-  padding-top: 265px;
-  padding-left: 55px;
+  padding-top: 133px;
+  padding-left: 27px;
 }
 
 #shadow {
-  margin-top: -160px;
+  margin-top: -80px;
 }
 
 #frying {
   float: left;
-  width:1100px;
+  width:550px;
 }
 
 #part-of-kitchen {
-  padding-top: 700px;
+  padding-top: 350px;
 }
 
 #stove{
   float:right;
-  width:750px;
-  height:200px;
+  width:375px;
+  height:100px;
 }
 #food{
   float:left;
-  padding-top:100px;
+  padding-top:50px;
 }
 #gas-stove {
   position: absolute;
-  padding-top: 100px;
+  padding-top: 50px;
   z-index: 1;
-  padding-left: 75px;
+  padding-left: 36px;
 }
 
 #pan {
@@ -141,42 +141,42 @@ body {
 }
 
 #fried-bacon {
-  padding-left: 140px;
-  padding-top:25px;
+  padding-left: 70px;
+  padding-top:12px;
   position: absolute;
   z-index: 3;
 }
 
 #fried-egg {
-  padding-left: 140px;
-  padding-top:25px;
+  padding-left: 70px;
+  padding-top:12px;
   position: absolute;
   z-index: 3;
 }
 
 #food-plate{
   float:left;
-  padding-top:760px;
-  padding-left:50px;
+  padding-top:380px;
+  padding-left:25px;
 }
 
 #egg-on-bread{
   position:absolute;
   z-index:3;
-  padding-top:35px;
-  padding-left:65px;
+  padding-top:18px;
+  padding-left:32px;
 }
 #bacon-on-bread{
   position: absolute;
   z-index:2;
-  padding-top:15px;
-  padding-left:75px;
+  padding-top:7px;
+  padding-left:37px;
 }
 #brown-bread{
   position:absolute;
   z-index:1;
-  padding-top:20px;
-  padding-left:45px;
+  padding-top:10px;
+  padding-left:22px;
 }
 #egg,#bacon,#fried-bacon,#fried-egg{
   cursor:pointer;
@@ -187,39 +187,39 @@ body {
 
 @keyframes toast-it {
   from {
-    padding-top: 15px;
+    padding-top: 7px;
   }
   to {
-    padding-top: 315px;
+    padding-top: 158px;
   }
 }
 
 @keyframes toasted {
   0% {
-    padding-top: 315px;
+    padding-top: 158px;
   }
   50% {
     padding-top: 0px;
   }
   100% {
-    padding-top: 15px;
+    padding-top: 3px;
   }
 }
 
 @keyframes toast-it-button {
   from {
-    padding-top: 330px;
+    padding-top: 158px;
   }
   to {
-    padding-top: 545px;
+    padding-top: 272px;
   }
 }
 
 @keyframes toasted-button {
   from {
-    padding-top: 545px;
+    padding-top: 272px;
   }
   to {
-    padding-top: 330px;
+    padding-top: 165px;
   }
 }
