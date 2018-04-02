@@ -3,14 +3,14 @@ package eu.luminis.breed.sleuthzipkin.model;
 public class FriedEgg {
 
   private String temperature;
-  private String countryOfEgg;
+  private String preference;
 
   public FriedEgg() {
   }
 
-  public FriedEgg(String temperature, String countryOfEgg) {
+  public FriedEgg(String temperature, String preference) {
     this.temperature = temperature;
-    this.countryOfEgg = countryOfEgg;
+    this.preference = preference;
   }
 
   public String getTemperature() {
@@ -21,11 +21,11 @@ public class FriedEgg {
     this.temperature = temperature;
   }
 
-  public String getCountryOfEgg() {
-    return countryOfEgg;
+  public String getPreference() {
+    return preference;
   }
 
-  public void setCountryOfEgg(String countryOfEgg) {
-    this.countryOfEgg = countryOfEgg;
+  public void setPreference(String preference) {
+    this.preference = preference;
   }
 }

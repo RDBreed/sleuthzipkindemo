@@ -1,6 +1,9 @@
 function DOMFunctions(){
   this.displayBlock = function (elementId) {
-    document.getElementById(elementId).style.display = 'block';
+    document.getElementById(elementId).style.display = 'initial';
+  };
+  this.changeImage = function(elementId, src){
+    document.getElementById(elementId).src = src;
   };
   this.displayNone = function (elementId) {
     document.getElementById(elementId).style.display = 'none';

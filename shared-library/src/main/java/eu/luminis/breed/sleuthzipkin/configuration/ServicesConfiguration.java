@@ -7,98 +7,98 @@ import org.apache.http.client.utils.URIBuilder;
 public class ServicesConfiguration {
 
   private String baseUrl;
-  private ServiceConfiguration serviceConfigurationB;
-  private ServiceConfiguration serviceConfigurationC;
-  private ServiceConfiguration serviceConfigurationD;
-  private ServiceConfiguration serviceConfigurationSoapService;
+  private ServiceConfiguration machineServiceConfiguration;
+  private ServiceConfiguration preferenceServiceConfiguration;
+  private ServiceConfiguration temperatureServiceConfiguration;
+  private ServiceConfiguration energyServiceConfiguration;
 
   public void setBaseUrl(String baseUrl) {
     this.baseUrl = baseUrl;
   }
 
-  public void setServiceConfigurationB(ServiceConfiguration serviceConfigurationB) {
-    this.serviceConfigurationB = serviceConfigurationB;
+  public void setMachineServiceConfiguration(ServiceConfiguration machineServiceConfiguration) {
+    this.machineServiceConfiguration = machineServiceConfiguration;
   }
 
-  public void setServiceConfigurationC(ServiceConfiguration serviceConfigurationC) {
-    this.serviceConfigurationC = serviceConfigurationC;
+  public void setPreferenceServiceConfiguration(ServiceConfiguration preferenceServiceConfiguration) {
+    this.preferenceServiceConfiguration = preferenceServiceConfiguration;
   }
 
-  public void setServiceConfigurationD(ServiceConfiguration serviceConfigurationD) {
-    this.serviceConfigurationD = serviceConfigurationD;
+  public void setTemperatureServiceConfiguration(ServiceConfiguration temperatureServiceConfiguration) {
+    this.temperatureServiceConfiguration = temperatureServiceConfiguration;
   }
 
-  public void setServiceConfigurationSoapService(ServiceConfiguration serviceConfigurationSoapService) {
-    this.serviceConfigurationSoapService = serviceConfigurationSoapService;
+  public void setEnergyServiceConfiguration(ServiceConfiguration energyServiceConfiguration) {
+    this.energyServiceConfiguration = energyServiceConfiguration;
   }
 
-  public URI getURIServiceB(String path) throws URISyntaxException {
-    return new URIBuilder(getBaseUrlServiceB())
-        .setPort(getPortServiceB())
+  public URI getURIMachineService(String path) throws URISyntaxException {
+    return new URIBuilder(getBaseUrlMachineService())
+        .setPort(getPortMachineService())
         .setPath(path)
         .build();
   }
 
-  public URI getURIServiceC(String path) throws URISyntaxException {
-    return new URIBuilder(getBaseUrlServiceC())
-        .setPort(getPortServiceC())
+  public URI getURIPreferenceService(String path) throws URISyntaxException {
+    return new URIBuilder(getBaseUrlPreferenceService())
+        .setPort(getPortPreferenceService())
         .setPath(path)
         .build();
   }
 
-  public URI getURIServiceD(String path) throws URISyntaxException {
-    return new URIBuilder(getBaseUrlServiceD())
-        .setPort(getPortServiceD())
+  public URI getURITemperatureService(String path) throws URISyntaxException {
+    return new URIBuilder(getBaseUrlTemperatureService())
+        .setPort(getPortTemperatureService())
         .setPath(path)
         .build();
   }
 
-  public URI getURIServiceSoapService(String path) throws URISyntaxException {
-    return new URIBuilder(getBaseUrlServiceSoapService())
-        .setPort(getPortServiceSoapService())
+  public URI getURIEnergyService(String path) throws URISyntaxException {
+    return new URIBuilder(getBaseUrlEnergyService())
+        .setPort(getPortEnergyService())
         .setPath(path)
         .build();
   }
 
-  public String getBaseUrlServiceB(){
-    return baseUrl + serviceConfigurationB.getUrl();
+  public String getBaseUrlMachineService(){
+    return baseUrl + machineServiceConfiguration.getUrl();
   }
 
-  public String getBaseUrlServiceC(){
-    return baseUrl + serviceConfigurationC.getUrl();
+  public String getBaseUrlPreferenceService(){
+    return baseUrl + preferenceServiceConfiguration.getUrl();
   }
 
-  public String getBaseUrlServiceD(){
-    return baseUrl + serviceConfigurationD.getUrl();
+  public String getBaseUrlTemperatureService(){
+    return baseUrl + temperatureServiceConfiguration.getUrl();
   }
 
-  public String getBaseUrlServiceSoapService(){
-    return baseUrl + serviceConfigurationSoapService.getUrl();
+  public String getBaseUrlEnergyService(){
+    return baseUrl + energyServiceConfiguration.getUrl();
   }
 
-  public int getPortServiceB(){
-    return serviceConfigurationB.getPort();
+  public int getPortMachineService(){
+    return machineServiceConfiguration.getPort();
   }
 
-  public int getPortServiceC(){
-    return serviceConfigurationC.getPort();
+  public int getPortPreferenceService(){
+    return preferenceServiceConfiguration.getPort();
   }
 
-  public int getPortServiceD(){
-    return serviceConfigurationD.getPort();
+  public int getPortTemperatureService(){
+    return temperatureServiceConfiguration.getPort();
   }
 
-  public int getPortServiceSoapService(){
-    return serviceConfigurationSoapService.getPort();
+  public int getPortEnergyService(){
+    return energyServiceConfiguration.getPort();
   }
 
   public static final class ServicesConfigurationBuilder {
 
     private String baseUrl;
-    private ServiceConfiguration serviceConfigurationB;
-    private ServiceConfiguration serviceConfigurationC;
-    private ServiceConfiguration serviceConfigurationD;
-    private ServiceConfiguration serviceConfigurationSoapService;
+    private ServiceConfiguration machineServiceConfiguration;
+    private ServiceConfiguration preferenceServiceConfiguration;
+    private ServiceConfiguration temperatureServiceConfiguration;
+    private ServiceConfiguration energyServiceConfiguration;
 
     private ServicesConfigurationBuilder() {
     }
@@ -112,33 +112,33 @@ public class ServicesConfiguration {
       return this;
     }
 
-    public ServicesConfigurationBuilder withServiceConfigurationB(ServiceConfiguration serviceConfigurationB) {
-      this.serviceConfigurationB = serviceConfigurationB;
+    public ServicesConfigurationBuilder withMachineServiceConfiguration(ServiceConfiguration machineServiceConfiguration) {
+      this.machineServiceConfiguration = machineServiceConfiguration;
       return this;
     }
 
-    public ServicesConfigurationBuilder withServiceConfigurationC(ServiceConfiguration serviceConfigurationC) {
-      this.serviceConfigurationC = serviceConfigurationC;
+    public ServicesConfigurationBuilder withPreferenceServiceConfiguration(ServiceConfiguration preferenceServiceConfiguration) {
+      this.preferenceServiceConfiguration = preferenceServiceConfiguration;
       return this;
     }
 
-    public ServicesConfigurationBuilder withServiceConfigurationD(ServiceConfiguration serviceConfigurationD) {
-      this.serviceConfigurationD = serviceConfigurationD;
+    public ServicesConfigurationBuilder withTemperatureServiceConfiguration(ServiceConfiguration temperatureServiceConfiguration) {
+      this.temperatureServiceConfiguration = temperatureServiceConfiguration;
       return this;
     }
 
-    public ServicesConfigurationBuilder withServiceConfigurationSoapService(ServiceConfiguration serviceConfigurationSoapService) {
-      this.serviceConfigurationSoapService = serviceConfigurationSoapService;
+    public ServicesConfigurationBuilder withEnergyServiceConfiguration(ServiceConfiguration energyServiceConfiguration) {
+      this.energyServiceConfiguration = energyServiceConfiguration;
       return this;
     }
 
     public ServicesConfiguration build() {
       ServicesConfiguration servicesConfiguration = new ServicesConfiguration();
       servicesConfiguration.setBaseUrl(baseUrl);
-      servicesConfiguration.setServiceConfigurationB(serviceConfigurationB);
-      servicesConfiguration.setServiceConfigurationC(serviceConfigurationC);
-      servicesConfiguration.setServiceConfigurationD(serviceConfigurationD);
-      servicesConfiguration.setServiceConfigurationSoapService(serviceConfigurationSoapService);
+      servicesConfiguration.setMachineServiceConfiguration(machineServiceConfiguration);
+      servicesConfiguration.setPreferenceServiceConfiguration(preferenceServiceConfiguration);
+      servicesConfiguration.setTemperatureServiceConfiguration(temperatureServiceConfiguration);
+      servicesConfiguration.setEnergyServiceConfiguration(energyServiceConfiguration);
       return servicesConfiguration;
     }
   }

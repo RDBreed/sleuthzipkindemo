@@ -12,6 +12,7 @@ function Http () {
     return new Promise(function(resolve, reject) {
       var req = new XMLHttpRequest();
       req.open(method, url);
+      req.setRequestHeader("Access-Control-Allow-Origin", 'true');
       if(conversationId != null){
         req.setRequestHeader("x-b3-convid", conversationId);
       }

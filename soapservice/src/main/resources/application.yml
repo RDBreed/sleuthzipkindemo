@@ -1,5 +1,0 @@
-spring:
-    application:
-        name: soap-service
-server:
-  port: 8085

@@ -1,6 +1,8 @@
 spring:
     sleuth:
       propagation-keys: X-B3-CONVID
+      sampler:
+        probability: 1
 logging:
   level:
     org.springframework.web: DEBUG

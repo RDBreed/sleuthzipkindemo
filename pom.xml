@@ -90,11 +90,11 @@
 
   <modules>
     <module>shared-library</module>
-    <module>soapservice</module>
-    <module>service_a</module>
-    <module>service_b</module>
-    <module>service_c</module>
-    <module>service_d</module>
+    <module>energy-service</module>
+    <module>breakfast-service</module>
+    <module>machine-service</module>
+    <module>preference-service</module>
+    <module>temperature-service</module>
     <module>cucumbertests</module>
   </modules>
 </project>

@@ -1,5 +1,6 @@
 function Bread() {
   const Functions = new DOMFunctions();
+  // const Modal = new Modal();
 
   function getToastedBread(State) {
     Functions.removeClass("toast-bread-holder", "toasted");
@@ -15,7 +16,7 @@ function Bread() {
   function _toastIt(State) {
     const t0 = performance.now();
     new Http().makeRequest('GET',
-        'http://localhost:8081/breakfast/toastedbread',
+        'https://localhost:8081/breakfast/toastedbread',
         State.getConversationId()).then(
         function (response) {
           const t1 = performance.now();
@@ -34,6 +35,7 @@ function Bread() {
             toastBread.addEventListener("click", _displayPlateWithBread);
           }
           _toasted();
+          // Modal.openModal('modal');
         }, function (error) {
           _toasted();
           console.error("Failed!", error);
