@@ -13,14 +13,14 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import org.springframework.http.ResponseEntity;
 
-public class ServiceABreakfastStepDefinition {
+public class BreakfastServiceStepDefinition {
 
   private ToastedBread toastedBread;
   private FriedEgg friedEgg;
   private FriedBacon friedBacon;
-  private ServiceAApi serviceAApi;
+  private BreakFastServiceApi serviceAApi;
 
-  public ServiceABreakfastStepDefinition(ServiceAApi serviceAApi) {
+  public BreakfastServiceStepDefinition(BreakFastServiceApi serviceAApi) {
     this.serviceAApi = serviceAApi;
   }
 
@@ -48,5 +48,10 @@ public class ServiceABreakfastStepDefinition {
     assertNotNull(toastedBread);
     assertNotNull(friedEgg);
     assertNotNull(friedBacon);
+  }
+
+  @And("^a good cup of coffee$")
+  public void aGoodCupOfCoffee() throws Throwable {
+    ResponseEntity<String> responseEntity = serviceAApi.getCoffee();
   }
 }

@@ -1,6 +1,6 @@
 function Bread() {
   const Functions = new DOMFunctions();
-  // const Modal = new Modal();
+  const Modal = new ToasterModal();
 
   function getToastedBread(State) {
     Functions.removeClass("toast-bread-holder", "toasted");
@@ -16,16 +16,19 @@ function Bread() {
   function _toastIt(State) {
     const t0 = performance.now();
     new Http().makeRequest('GET',
-        'https://localhost:8081/breakfast/toastedbread',
+        State.getBaseUrl() + '/breakfast/toastedbread',
         State.getConversationId()).then(
-        function (response) {
+        function (xmlHttpResponse) {
           const t1 = performance.now();
-          State.setConversationId(response.getResponseHeader("x-b3-convid"));
-          console.log("Success!", response);
+          State.setConversationId(
+              xmlHttpResponse.getResponseHeader("x-b3-convid"));
+          console.log("Success!", xmlHttpResponse);
           Functions.removeAllListeners("toast-bread-holder");
           const toastBread = Functions.removeAllListeners("toast-bread");
+          let extraInfo = ':';
           if (t1 - t0 > 5000) {
             Functions.changeBackgroundImage("toast-bread", "images/dark.png");
+            extraInfo  = ' BUT BURNED :(';
             toastBread.addEventListener("click", function () {
               Functions.changeBackgroundImage("toast-bread",
                   "images/light.png");
@@ -35,7 +38,11 @@ function Bread() {
             toastBread.addEventListener("click", _displayPlateWithBread);
           }
           _toasted();
-          // Modal.openModal('modal');
+          Modal.openModal("Toast", `Bread is toasted`+extraInfo+`<br />Temperature: `
+              + xmlHttpResponse.response.temperature + `<br />Power: `
+              + xmlHttpResponse.response.power
+              + `<br />Preference: `
+              + xmlHttpResponse.response.preferedDoneness)
         }, function (error) {
           _toasted();
           console.error("Failed!", error);

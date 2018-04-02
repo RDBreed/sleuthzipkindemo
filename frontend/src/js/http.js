@@ -11,6 +11,7 @@ function Http () {
     // Return a new promise.
     return new Promise(function(resolve, reject) {
       var req = new XMLHttpRequest();
+      req.responseType = "json";
       req.open(method, url);
       req.setRequestHeader("Access-Control-Allow-Origin", 'true');
       if(conversationId != null){

@@ -37,7 +37,7 @@ public class MachineController {
     int temperature = restTemplate.getForObject(servicesConfiguration.getURITemperatureService("temperature/toaster"), Integer.class);//will initiate new span
     GetEnergyResponse energyResponse = soapServiceClient.getEnergyResponse(Device.TOASTER);
     logger.info("Returning information about power used & temperature");
-    return new MachineInformation(energyResponse.getEnergy().getValue() + " " + energyResponse.getEnergy().getUnit(), temperature);//will return to the first span & finish the trace
+    return new MachineInformation(energyResponse.getEnergy().getValue() + " " + energyResponse.getEnergy().getUnit().value(), temperature);//will return to the first span & finish the trace
   }
 
   @GetMapping("stove")//by calling the service, a trace & span is started
@@ -46,7 +46,7 @@ public class MachineController {
     int temperature = restTemplate.getForObject(servicesConfiguration.getURITemperatureService("temperature/stove"), Integer.class);//will initiate new span
     GetEnergyResponse energyResponse = soapServiceClient.getEnergyResponse(Device.STOVE);
     logger.info("Returning information about gas used & temperature");
-    return new MachineInformation(energyResponse.getEnergy().getValue() + " " + energyResponse.getEnergy().getUnit(), temperature);//will return to the first span & finish the trace
+    return new MachineInformation(energyResponse.getEnergy().getValue() + " " + energyResponse.getEnergy().getUnit().value(), temperature);//will return to the first span & finish the trace
   }
 
   @GetMapping("coffeemachine")//by calling the service, a trace & span is started
@@ -55,6 +55,6 @@ public class MachineController {
     int temperature = restTemplate.getForObject(servicesConfiguration.getURITemperatureService("temperature/coffeemachine"), Integer.class);//will initiate new span
     GetEnergyResponse energyResponse = soapServiceClient.getEnergyResponse(Device.COFFEEMACHINE);
     logger.info("Returning information about power used & temperature");
-    return new MachineInformation(energyResponse.getEnergy().getValue() + " " + energyResponse.getEnergy().getUnit(), temperature);//will return to the first span & finish the trace
+    return new MachineInformation(energyResponse.getEnergy().getValue() + " " + energyResponse.getEnergy().getUnit().value(), temperature);//will return to the first span & finish the trace
   }
 }

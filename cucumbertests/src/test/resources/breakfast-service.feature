@@ -8,6 +8,7 @@ Feature: get a breakfast
     When a customer want a toasted bread
     And a fried egg
     And some bacon
+    And a good cup of coffee
     Then he gets a wonderful breakfast
 
   Scenario:
@@ -16,4 +17,5 @@ Feature: get a breakfast
     When a customer want a toasted bread
     And a fried egg
     And some bacon
+    And a good cup of coffee
     Then he gets a wonderful breakfast

@@ -18,13 +18,14 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping(path = "breakfast")
-@CrossOrigin(origins = {"http://localhost:8080", "https://localhost:8000", "https://127.0.0.1:8000"})
+@CrossOrigin(origins = {"http://localhost:8080", "https://localhost"})
 public class BreakfastController {
 
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
   private final RestTemplate restTemplate;
   private final ServicesConfiguration servicesConfiguration;
+  private static final String TEMPERATURE_UNIT = " degrees";
 
   @Autowired
   public BreakfastController(RestTemplate restTemplate, ServicesConfiguration servicesConfiguration) {
@@ -40,7 +41,7 @@ public class BreakfastController {
     String preferredDoneness =
         restTemplate.getForObject(servicesConfiguration.getURIPreferenceService("preference/toastedbread"), String.class);//will initiate new span
     logger.info("Returning toasted bread");
-    return new ToastedBread(toasterInformation.getTemperature() + " degrees", toasterInformation.getPower(), preferredDoneness);//will return to the first span & finish the trace
+    return new ToastedBread(toasterInformation.getTemperature() + TEMPERATURE_UNIT, toasterInformation.getPower(), preferredDoneness);//will return to the first span & finish the trace
   }
 
   @GetMapping("egg")
@@ -49,7 +50,7 @@ public class BreakfastController {
     MachineInformation machineInformation = restTemplate.getForObject(servicesConfiguration.getURIMachineService("machine/stove"), MachineInformation.class);
     String preference = restTemplate.getForObject(servicesConfiguration.getURIPreferenceService("preference/egg"), String.class);
     logger.info("Returning fried egg");
-    return new FriedEgg(machineInformation.getTemperature() + " degrees", preference);
+    return new FriedEgg(machineInformation.getTemperature() + TEMPERATURE_UNIT, machineInformation.getPower(), preference);
   }
 
   @GetMapping("bacon")
@@ -68,7 +69,7 @@ public class BreakfastController {
     String preferredDoneness =
         restTemplate.getForObject(servicesConfiguration.getURIPreferenceService("preference/coffee"), String.class);//will initiate new span
     logger.info("Returning toasted bread");
-    return new Coffee(machineInformation.getTemperature() + " degrees", machineInformation.getPower(), preferredDoneness);//will return to the first span & finish the trace
+    return new Coffee(machineInformation.getTemperature() + TEMPERATURE_UNIT, machineInformation.getPower(), preferredDoneness);//will return to the first span & finish the trace
   }
 
 
