@@ -1,66 +1,63 @@
-Index: pom.xml
+Index: shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/DefaultSleuthAndZipkinConfiguration.java
 IDEA additional info:
 Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 <+>UTF-8
 ===================================================================
---- pom.xml	(revision d2110872797c8b4e65e27ea20383e4e4d56f86e8)
-+++ pom.xml	(date 1522223045000)
-@@ -22,17 +22,22 @@
-     <version>2.0.0.RELEASE</version>
-     <relativePath/> <!-- lookup parent from repository -->
-   </parent>
--
--  <dependencies>
--    <dependency>
--      <groupId>org.springframework.cloud</groupId>
--      <artifactId>spring-cloud-sleuth-zipkin</artifactId>
--    </dependency>
-+  <dependencyManagement>
-+    <dependencies>
-+      <dependency>
-+        <groupId>org.springframework.cloud</groupId>
-+        <artifactId>spring-cloud-sleuth</artifactId>
-+        <version>${spring-cloud.version}</version>
-+        <type>pom</type>
-+        <scope>import</scope>
-+      </dependency>
-+    </dependencies>
-+  </dependencyManagement>
-+  <dependencies>
-     <dependency>
-       <groupId>org.springframework.cloud</groupId>
-       <artifactId>spring-cloud-starter-sleuth</artifactId>
-     </dependency>
--
-     <dependency>
-       <groupId>org.springframework.boot</groupId>
-       <artifactId>spring-boot-starter-test</artifactId>
-@@ -62,18 +67,6 @@
-     </dependency>
-   </dependencies>
+--- shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/DefaultSleuthAndZipkinConfiguration.java	(revision b9c9ff07cff39042683969e0bbf03fce890c1da7)
++++ shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/DefaultSleuthAndZipkinConfiguration.java	(date 1522698595000)
+@@ -1,31 +1,8 @@
+ package eu.luminis.breed.sleuthzipkin.configuration;
  
--  <dependencyManagement>
--    <dependencies>
--      <dependency>
--        <groupId>org.springframework.cloud</groupId>
--        <artifactId>spring-cloud-sleuth</artifactId>
--        <version>${spring-cloud.version}</version>
--        <type>pom</type>
--        <scope>import</scope>
--      </dependency>
--    </dependencies>
--  </dependencyManagement>
+-import brave.Tracer;
+-import org.springframework.cloud.sleuth.instrument.web.TraceWebServletAutoConfiguration;
+-import org.springframework.context.annotation.Bean;
+ import org.springframework.context.annotation.Configuration;
+-import org.springframework.core.annotation.Order;
+-import org.springframework.web.filter.GenericFilterBean;
+ 
+ @Configuration
+ public class DefaultSleuthAndZipkinConfiguration {
+-  /**
+-   * Define a sampler. Default is NEVER, but for this demonstration we use ALWAYS.
+-   * This will export all spans to zipkin. See https://cloud.spring.io/spring-cloud-sleuth/multi/multi__sampling.html
+-   */
+-//  @Bean
+-//  public Sampler defaultSampler() {
+-//    return Sampler.ALWAYS_SAMPLE;
+-//  }
+ 
 -
-   <build>
-     <plugins>
-       <plugin>
+-  /**
+-   * Our custom trace filter which will ensure a conversation id can be passed along.
+-   * We load this filter after the Tracefilter (which is the filter which actually starts/continues/handles our traces & spans.
+-   */
+-  @Bean
+-  @Order(TraceWebServletAutoConfiguration.TRACING_FILTER_ORDER + 1)
+-  public GenericFilterBean customTraceFilter(Tracer tracer) {
+-    return new CustomTraceFilter(tracer);
+-  }
+ }
+Index: shared-library/src/main/resources/application-default.yml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- shared-library/src/main/resources/application-default.yml	(revision b9c9ff07cff39042683969e0bbf03fce890c1da7)
++++ shared-library/src/main/resources/application-default.yml	(date 1522698568000)
+@@ -1,6 +1,5 @@
+ spring:
+     sleuth:
+-      propagation-keys: X-B3-CONVID
+       sampler:
+         probability: 1
+ logging:
 Index: shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/CustomTraceFilter.java
 IDEA additional info:
 Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 <+>UTF-8
 ===================================================================
---- shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/CustomTraceFilter.java	(revision d2110872797c8b4e65e27ea20383e4e4d56f86e8)
-+++ shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/CustomTraceFilter.java	(date 1522221732000)
+--- shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/CustomTraceFilter.java	(revision b9c9ff07cff39042683969e0bbf03fce890c1da7)
++++ shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/CustomTraceFilter.java	(date 1522698568000)
 @@ -1,48 +1,0 @@
 -package eu.luminis.breed.sleuthzipkin.configuration;
 -
@@ -110,71 +107,13 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 -    filterChain.doFilter(servletRequest, servletResponse);
 -  }
 -}
-Index: shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/DefaultSleuthAndZipkinConfiguration.java
-IDEA additional info:
-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
-<+>UTF-8
-===================================================================
---- shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/DefaultSleuthAndZipkinConfiguration.java	(revision d2110872797c8b4e65e27ea20383e4e4d56f86e8)
-+++ shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/DefaultSleuthAndZipkinConfiguration.java	(date 1522221630000)
-@@ -1,12 +1,6 @@
- package eu.luminis.breed.sleuthzipkin.configuration;
- 
--import brave.Tracer;
--import brave.sampler.Sampler;
--import org.springframework.cloud.sleuth.instrument.web.TraceWebServletAutoConfiguration;
--import org.springframework.context.annotation.Bean;
- import org.springframework.context.annotation.Configuration;
--import org.springframework.core.annotation.Order;
--import org.springframework.web.filter.GenericFilterBean;
- 
- @Configuration
- public class DefaultSleuthAndZipkinConfiguration {
-@@ -14,19 +8,8 @@
-    * Define a sampler. Default is NEVER, but for this demonstration we use ALWAYS.
-    * This will export all spans to zipkin. See https://cloud.spring.io/spring-cloud-sleuth/multi/multi__sampling.html
-    */
--  @Bean//
--  public Sampler defaultSampler() {
--    return Sampler.ALWAYS_SAMPLE;
--  }
--
--
--  /**
--   * Our custom trace filter which will ensure a conversation id can be passed along.
--   * We load this filter after the Tracefilter (which is the filter which actually starts/continues/handles our traces & spans.
--   */
--  @Bean
--  @Order(TraceWebServletAutoConfiguration.TRACING_FILTER_ORDER + 1)
--  public GenericFilterBean customTraceFilter(Tracer tracer) {
--    return new CustomTraceFilter(tracer);
--  }
-+//  @Bean//
-+//  public Sampler defaultSampler() {
-+//    return Sampler.ALWAYS_SAMPLE;
-+//  }
- }
-Index: shared-library/src/main/resources/application-default.yml
-IDEA additional info:
-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
-<+>UTF-8
-===================================================================
---- shared-library/src/main/resources/application-default.yml	(revision d2110872797c8b4e65e27ea20383e4e4d56f86e8)
-+++ shared-library/src/main/resources/application-default.yml	(date 1522223358000)
-@@ -1,6 +1,3 @@
--spring:
--    sleuth:
--      propagation-keys: X-B3-CONVID
- logging:
-   level:
-     org.springframework.web: DEBUG
 Index: shared-library/src/main/resources/default-logback.xml
 IDEA additional info:
 Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 <+>UTF-8
 ===================================================================
---- shared-library/src/main/resources/default-logback.xml	(revision d2110872797c8b4e65e27ea20383e4e4d56f86e8)
-+++ shared-library/src/main/resources/default-logback.xml	(date 1522223358000)
+--- shared-library/src/main/resources/default-logback.xml	(revision b9c9ff07cff39042683969e0bbf03fce890c1da7)
++++ shared-library/src/main/resources/default-logback.xml	(date 1522698568000)
 @@ -2,7 +2,7 @@
      <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
@@ -192,3 +131,45 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
          <level>INFO</level>
        </filter>
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- pom.xml	(revision b9c9ff07cff39042683969e0bbf03fce890c1da7)
++++ pom.xml	(date 1522698478000)
+@@ -24,15 +24,6 @@
+   </parent>
+ 
+   <dependencies>
+-    <dependency>
+-      <groupId>org.springframework.cloud</groupId>
+-      <artifactId>spring-cloud-sleuth-zipkin</artifactId>
+-    </dependency>
+-    <dependency>
+-      <groupId>org.springframework.cloud</groupId>
+-      <artifactId>spring-cloud-starter-sleuth</artifactId>
+-    </dependency>
+-
+     <dependency>
+       <groupId>org.springframework.boot</groupId>
+       <artifactId>spring-boot-starter-test</artifactId>
+@@ -67,18 +58,6 @@
+     </dependency>
+   </dependencies>
+ 
+-  <dependencyManagement>
+-    <dependencies>
+-      <dependency>
+-        <groupId>org.springframework.cloud</groupId>
+-        <artifactId>spring-cloud-sleuth</artifactId>
+-        <version>${spring-cloud.version}</version>
+-        <type>pom</type>
+-        <scope>import</scope>
+-      </dependency>
+-    </dependencies>
+-  </dependencyManagement>
+-
+   <build>
+     <plugins>
+       <plugin>
