@@ -1,8 +1,12 @@
 spring:
-    sleuth:
-      propagation-keys: X-B3-CONVID
-      sampler:
-        probability: 1
+  devtools:
+    restart:
+      poll-interval: 3s
+      quiet-period: 2999ms
+  sleuth:
+    propagation-keys: X-B3-CONVID
+    sampler:
+      probability: 1
 logging:
   level:
     org.springframework.web: DEBUG
