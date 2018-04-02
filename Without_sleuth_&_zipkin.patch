@@ -42,14 +42,15 @@ IDEA additional info:
 Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 <+>UTF-8
 ===================================================================
---- shared-library/src/main/resources/application-default.yml	(revision b9c9ff07cff39042683969e0bbf03fce890c1da7)
-+++ shared-library/src/main/resources/application-default.yml	(date 1522698568000)
-@@ -1,6 +1,5 @@
- spring:
-     sleuth:
--      propagation-keys: X-B3-CONVID
-       sampler:
-         probability: 1
+--- shared-library/src/main/resources/application-default.yml	(revision a3793265705a1d09621f5762a9be89aa311c2c9d)
++++ shared-library/src/main/resources/application-default.yml	(date 1522703976000)
+@@ -4,7 +4,6 @@
+       poll-interval: 3s
+       quiet-period: 2999ms
+   sleuth:
+-    propagation-keys: X-B3-CONVID
+     sampler:
+       probability: 1
  logging:
 Index: shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/CustomTraceFilter.java
 IDEA additional info:
