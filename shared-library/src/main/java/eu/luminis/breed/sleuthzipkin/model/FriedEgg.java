@@ -12,6 +12,9 @@ public class FriedEgg {
     this.preference = preference;
   }
 
+  public FriedEgg() {
+  }
+
   public String getTemperature() {
     return temperature;
   }

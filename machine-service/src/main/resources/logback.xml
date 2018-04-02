@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false">
-  <property name="APP_NAME" value="ServiceB" />
+  <property name="APP_NAME" value="MachineService" />
   <include resource="default-logback.xml"/>
   <root level="info">
     <appender-ref ref="STDOUT" />

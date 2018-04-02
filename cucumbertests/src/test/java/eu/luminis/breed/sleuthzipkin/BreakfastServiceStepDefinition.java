@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import eu.luminis.breed.sleuthzipkin.model.Coffee;
 import eu.luminis.breed.sleuthzipkin.model.FriedBacon;
 import eu.luminis.breed.sleuthzipkin.model.FriedEgg;
 import eu.luminis.breed.sleuthzipkin.model.ToastedBread;
@@ -19,6 +20,7 @@ public class BreakfastServiceStepDefinition {
   private FriedEgg friedEgg;
   private FriedBacon friedBacon;
   private BreakFastServiceApi serviceAApi;
+  private Coffee coffee;
 
   public BreakfastServiceStepDefinition(BreakFastServiceApi serviceAApi) {
     this.serviceAApi = serviceAApi;
@@ -48,10 +50,12 @@ public class BreakfastServiceStepDefinition {
     assertNotNull(toastedBread);
     assertNotNull(friedEgg);
     assertNotNull(friedBacon);
+    assertNotNull(coffee);
   }
 
   @And("^a good cup of coffee$")
   public void aGoodCupOfCoffee() throws Throwable {
     ResponseEntity<String> responseEntity = serviceAApi.getCoffee();
+    coffee = new ObjectMapper().readValue(responseEntity.getBody(), Coffee.class);
   }
 }

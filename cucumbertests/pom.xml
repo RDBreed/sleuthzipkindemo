@@ -39,16 +39,16 @@
 
   <build>
     <plugins>
-    <!--Exclude cucumbertests in default tests-->
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-surefire-plugin</artifactId>
-      <configuration>
-        <excludes>
-          <exclude>**/*.java</exclude>
-        </excludes>
-      </configuration>
-    </plugin>
+      <!--Exclude cucumbertests in default tests-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>**/*.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
       <!--Maven spring plugin: skip finding main class & building spring boot maven jar-->
       <plugin>
         <groupId>org.springframework.boot</groupId>
@@ -61,6 +61,6 @@
           </execution>
         </executions>
       </plugin>
-  </plugins>
+    </plugins>
   </build>
 </project>
