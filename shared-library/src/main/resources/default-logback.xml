@@ -23,4 +23,17 @@
         <level>INFO</level>
       </filter>
     </appender>
+
+    <logger name="logging.level.org.springframework.web.servlet.DispatcherServlet" level="debug" additivity="false">
+      <appender-ref ref="STDOUT" />
+      <appender-ref ref="GELF" />
+    </logger>
+    <logger name="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" level="info" additivity="false">
+      <appender-ref ref="STDOUT" />
+      <appender-ref ref="GELF" />
+    </logger>
+    <root level="info">
+      <appender-ref ref="STDOUT" />
+      <appender-ref ref="GELF" />
+    </root>
   </included>

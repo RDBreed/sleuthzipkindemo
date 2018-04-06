@@ -7,10 +7,7 @@ function Bread() {
     Functions.addClass("toast-bread-holder", "toastit");
     Functions.removeClass("toast-button-holder", "toasted");
     Functions.addClass("toast-button-holder", "toastit");
-
-    let transitionEnd = Functions.whichTransitionEvent();
-    document.getElementById("toast-bread-holder").addEventListener(
-        transitionEnd, () => _toastIt(State), false);
+    setTimeout(()=>_toastIt(State), 1000);
   }
 
   function _toastIt(State) {
@@ -45,6 +42,7 @@ function Bread() {
               + xmlHttpResponse.response.preferedDoneness)
         }, function (error) {
           _toasted();
+          Modal.openModal("Toast", `Bread toasting went wrong. Try again!`);
           console.error("Failed!", error);
         });
   }

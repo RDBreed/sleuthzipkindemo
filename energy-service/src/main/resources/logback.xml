@@ -2,8 +2,4 @@
 <configuration debug="false">
   <property name="APP_NAME" value="EnergyService" />
   <include resource="default-logback.xml"/>
-  <root level="info">
-    <appender-ref ref="STDOUT" />
-    <appender-ref ref="GELF" />
-  </root>
 </configuration>

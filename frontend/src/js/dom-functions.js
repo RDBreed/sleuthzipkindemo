@@ -28,21 +28,4 @@ function DOMFunctions(){
     el.parentNode.replaceChild(copy, el);
     return copy;
   };
-  this.whichTransitionEvent = function () {
-    let t;
-    const el = document.createElement('fakeelement');
-    let transitions = {
-      'animation': 'animationend',
-      'OAnimation': 'oAnimationEnd',
-      'MSAnimation': 'MSAnimationEnd',
-      'WebkitAnimation': 'webkitAnimationEnd'
-    };
-
-    for (t in transitions) {
-      if (el.style[t] !== undefined) {
-        return transitions[t];
-      }
-    }
-  };
-
 }
