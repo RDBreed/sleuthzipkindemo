@@ -1,0 +1,3 @@
+[submodule "sleuthsoapinterceptor"]
+	path = sleuthsoapinterceptor
+	url = git@github.com:RDBreed/sleuthsoapinterceptor.git
