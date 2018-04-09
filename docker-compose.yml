@@ -1,5 +1,20 @@
 version: '3'
 services:
+  monitoring:
+    image: tianon/true
+    restart: "no"
+    depends_on:
+      - elk
+      - zipkin
+  services:
+    image: tianon/true
+    restart: "no"
+    depends_on:
+      - service-a
+      - service-b
+      - service-c
+      - service-d
+      - soap-service
   elk:
     build: .
     networks:
@@ -15,5 +30,40 @@ services:
       - "9411:9411"
     depends_on:
       - elk
+    networks:
+      - servicesnetwork
+  service-a:
+    build: ./service_a
+    networks:
+      - servicesnetwork
+    ports:
+      - "8081:8081"
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+  service-b:
+    build: ./service_b
+    networks:
+      - servicesnetwork
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+  service-c:
+    build: ./service_c
+    networks:
+      - servicesnetwork
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+  service-d:
+    build: ./service_d
+    networks:
+      - servicesnetwork
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+  soap-service:
+    build: ./soapservice
+    networks:
+      - servicesnetwork
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
 networks:
   servicesnetwork:
+  testnetwork:

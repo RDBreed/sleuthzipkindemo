@@ -12,3 +12,8 @@ logging:
     level: "%5p [${spring.zipkin.service.name:${spring.application.name:-}},%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{X-B3-CONVID:-}]"
 server:
   port: 8084
+---
+spring:
+  profiles: docker
+  zipkin:
+    base-url: http://zipkin:9411

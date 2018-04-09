@@ -6,4 +6,9 @@
     <appender-ref ref="STDOUT" />
     <appender-ref ref="GELF" />
   </root>
+  <springProfile name="docker">
+    <root level="info">
+      <appender-ref ref="GELF-DOCKER" />
+    </root>
+  </springProfile>
 </configuration>

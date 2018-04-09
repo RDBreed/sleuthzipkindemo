@@ -3,7 +3,8 @@
 This is a demonstration of how to use Sleuth, Zipkin & an ELK stack for tracing requests.
 ## HOWTO
 To start ELK (Elasticsearch, Logstash, Kibana) & the Zipkin Server, ensure that you have **Docker** & **Docker-compose** installed.
-In the root you can run ELK & Zipkin with `docker-compose up`.
+In the root you can run ELK & Zipkin with `docker-compose up monitoring`. 
+Go to http://localhost:5601 & http://localhost:9411 to check if you can reach respectively Kibana & Zipkin.
 
 *The application itself consists of 5 (micro)services.
 Ensure you have Maven installed on your computer.
@@ -12,7 +13,7 @@ To ensure that Sleuth will work with the SOAP client & server, there is a submod
 
 Go to the `sleuthsoapinterceptor` directory & perform a `mvn clean install`.
 After this, perform a `mvn clean package` on the root of the project.
-You can start the applications by `docker-compose -f docker-compose-services.yml up`. Or use any other way to start the applications you feel comfortable with.
+You can start the applications by `docker-compose up services`. Or use any other way to start the applications you feel comfortable with.
 
 Note: Ensure you have enough RAM assigned to Docker. See also [http://elk-docker.readthedocs.io/](http://elk-docker.readthedocs.io/), from which we
  are using the Dockerfile for our ELK environment.

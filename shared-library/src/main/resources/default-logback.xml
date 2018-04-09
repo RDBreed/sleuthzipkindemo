@@ -23,4 +23,21 @@
         <level>INFO</level>
       </filter>
     </appender>
+
+    <appender name="GELF-DOCKER" class="biz.paluch.logging.gelf.logback.GelfLogbackAppender">
+      <host>udp:elk</host>
+      <port>12201</port>
+      <version>1.1</version>
+      <facility>${APP_NAME}</facility>
+      <extractStackTrace>true</extractStackTrace>
+      <filterStackTrace>true</filterStackTrace>
+      <mdcProfiling>true</mdcProfiling>
+      <timestampPattern>yyyy-MM-dd HH:mm:ss,SSSS</timestampPattern>
+      <maximumMessageSize>8192</maximumMessageSize>
+      <!-- This are fields using MDC -->
+      <dynamicMdcFields>X-(.*)</dynamicMdcFields>
+      <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+        <level>INFO</level>
+      </filter>
+    </appender>
   </included>
