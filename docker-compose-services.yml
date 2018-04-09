@@ -1,0 +1,36 @@
+version: '3'
+services:
+  service-a:
+    build: ./service_a
+    networks:
+      - servicesnetwork
+    ports:
+      - "8081:8081"
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+  service-b:
+    build: ./service_b
+    networks:
+      - servicesnetwork
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+  service-c:
+    build: ./service_c
+    networks:
+      - servicesnetwork
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+  service-d:
+    build: ./service_d
+    networks:
+      - servicesnetwork
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+  soap-service:
+    build: ./soapservice
+    networks:
+      - servicesnetwork
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+networks:
+  servicesnetwork:
