@@ -27,6 +27,8 @@ services:
 ---
 spring:
   profiles: docker
+  zipkin:
+    base-url: http://zipkin:9411
 services:
   baseurl: http://
   b:

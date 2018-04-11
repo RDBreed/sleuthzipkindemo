@@ -1,28 +1,31 @@
-  <included>
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-      <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-        <pattern>
-          %d{yyyy-MM-dd HH:mm:ss} [%thread] [%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{X-B3-CONVID:-}] %-5level %logger{36} - %msg%n
-        </pattern>
-      </encoder>
-    </appender>
-
-    <appender name="GELF" class="biz.paluch.logging.gelf.logback.GelfLogbackAppender">
-      <host>udp:localhost</host>
-      <port>12201</port>
-      <version>1.1</version>
-      <facility>${APP_NAME}</facility>
-      <extractStackTrace>true</extractStackTrace>
-      <filterStackTrace>true</filterStackTrace>
-      <mdcProfiling>true</mdcProfiling>
-      <timestampPattern>yyyy-MM-dd HH:mm:ss,SSSS</timestampPattern>
-      <maximumMessageSize>8192</maximumMessageSize>
-      <!-- This are fields using MDC -->
-      <dynamicMdcFields>X-(.*)</dynamicMdcFields>
-      <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-        <level>INFO</level>
-      </filter>
-    </appender>
+<included>
+  <property name="LOGSTASH_HOST" value="localhost" />
+  <springProfile name="docker">
+    <property name="LOGSTASH_HOST" value="elk" />
+  </springProfile>
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>
+        %d{yyyy-MM-dd HH:mm:ss} [%thread] [%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{X-B3-CONVID:-}] %-5level %logger{36} - %msg%n
+      </pattern>
+    </encoder>
+  </appender>
+  <appender name="GELF" class="biz.paluch.logging.gelf.logback.GelfLogbackAppender">
+    <host>udp:${LOGSTASH_HOST}</host>
+    <port>12201</port>
+    <version>1.1</version>
+    <facility>${APP_NAME}</facility>
+    <extractStackTrace>true</extractStackTrace>
+    <filterStackTrace>true</filterStackTrace>
+    <mdcProfiling>true</mdcProfiling>
+    <timestampPattern>yyyy-MM-dd HH:mm:ss,SSSS</timestampPattern>
+    <maximumMessageSize>8192</maximumMessageSize>
+    <!-- This are fields using MDC -->
+    <dynamicMdcFields>X-(.*)</dynamicMdcFields>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>INFO</level>
+    </filter>
+  </appender>
 
     <logger name="logging.level.org.springframework.web.servlet.DispatcherServlet" level="debug" additivity="false">
       <appender-ref ref="STDOUT" />

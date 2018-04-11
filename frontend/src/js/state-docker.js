@@ -1,6 +1,6 @@
 function PropertyState() {
   let conversationId = null;
-  let baseUrl = 'https://localhost:9081';
+  let baseUrl = 'http://localhost:8081';
 
   function setConversationId(convId) {
     conversationId = convId;
