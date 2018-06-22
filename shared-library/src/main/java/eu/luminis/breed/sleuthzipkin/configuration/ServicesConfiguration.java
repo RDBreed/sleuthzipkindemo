@@ -32,32 +32,48 @@ public class ServicesConfiguration {
     this.serviceConfigurationSoapService = serviceConfigurationSoapService;
   }
 
-  public URI getURIServiceB(String path) throws URISyntaxException {
-    return new URIBuilder(getBaseUrlServiceB())
-        .setPort(getPortServiceB())
-        .setPath(path)
-        .build();
+  public URI getURIServiceB(String path)  {
+    try {
+      return new URIBuilder(getBaseUrlServiceB())
+          .setPort(getPortServiceB())
+          .setPath(path)
+          .build();
+    } catch (URISyntaxException e) {
+      throw new GeneralException(e);
+    }
   }
 
-  public URI getURIServiceC(String path) throws URISyntaxException {
-    return new URIBuilder(getBaseUrlServiceC())
-        .setPort(getPortServiceC())
-        .setPath(path)
-        .build();
+  public URI getURIServiceC(String path)  {
+    try {
+      return new URIBuilder(getBaseUrlServiceC())
+          .setPort(getPortServiceC())
+          .setPath(path)
+          .build();
+    } catch (URISyntaxException e) {
+      throw new GeneralException(e);
+    }
   }
 
-  public URI getURIServiceD(String path) throws URISyntaxException {
-    return new URIBuilder(getBaseUrlServiceD())
-        .setPort(getPortServiceD())
-        .setPath(path)
-        .build();
+  public URI getURIServiceD(String path) {
+    try {
+      return new URIBuilder(getBaseUrlServiceD())
+          .setPort(getPortServiceD())
+          .setPath(path)
+          .build();
+    } catch (URISyntaxException e) {
+      throw new GeneralException(e);
+    }
   }
 
-  public URI getURIServiceSoapService(String path) throws URISyntaxException {
-    return new URIBuilder(getBaseUrlServiceSoapService())
-        .setPort(getPortServiceSoapService())
-        .setPath(path)
-        .build();
+  public URI getURIServiceSoapService(String path) {
+    try {
+      return new URIBuilder(getBaseUrlServiceSoapService())
+          .setPort(getPortServiceSoapService())
+          .setPath(path)
+          .build();
+    } catch (URISyntaxException e) {
+      throw new GeneralException(e);
+    }
   }
 
   public String getBaseUrlServiceB(){
