@@ -10,21 +10,16 @@
       </pattern>
     </encoder>
   </appender>
-  <appender name="GELF" class="biz.paluch.logging.gelf.logback.GelfLogbackAppender">
-    <host>udp:${LOGSTASH_HOST}</host>
+  <appender name="GELF" class="de.appelgriepsch.logback.GelfAppender">
+    <server>localhost</server>
     <port>12201</port>
-    <version>1.1</version>
-    <facility>${APP_NAME}</facility>
-    <extractStackTrace>true</extractStackTrace>
-    <filterStackTrace>true</filterStackTrace>
-    <mdcProfiling>true</mdcProfiling>
-    <timestampPattern>yyyy-MM-dd HH:mm:ss,SSSS</timestampPattern>
-    <maximumMessageSize>8192</maximumMessageSize>
-    <!-- This are fields using MDC -->
-    <dynamicMdcFields>X-(.*)</dynamicMdcFields>
-    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-      <level>INFO</level>
-    </filter>
+    <hostName>localhost</hostName>
+    <protocol>UDP</protocol>
+    <includeSource>true</includeSource>
+    <includeMDC>true</includeMDC>
+    <queueSize>512</queueSize>
+    <connectTimeout>1000</connectTimeout>
+    <reconnectDelay>500</reconnectDelay>
   </appender>
 
     <logger name="logging.level.org.springframework.web.servlet.DispatcherServlet" level="debug" additivity="false">
