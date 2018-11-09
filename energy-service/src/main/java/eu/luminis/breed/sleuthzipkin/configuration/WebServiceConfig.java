@@ -1,7 +1,7 @@
 package eu.luminis.breed.sleuthzipkin.configuration;
 
-import brave.Tracer;
-import brave.http.HttpTracing;
+import eu.luminis.breed.sleuth.TraceWebServiceServerInterceptor;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.ws.config.annotation.EnableWs;
 import org.springframework.ws.config.annotation.WsConfigurerAdapter;
+import org.springframework.ws.server.EndpointInterceptor;
 import org.springframework.ws.transport.http.MessageDispatcherServlet;
 import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.SimpleXsdSchema;
@@ -19,13 +20,11 @@ import org.springframework.xml.xsd.XsdSchema;
 @Configuration
 public class WebServiceConfig extends WsConfigurerAdapter {
 
-  private final Tracer tracer;
-  private final HttpTracing sleuthHttpTracing;
+  private final TraceWebServiceServerInterceptor traceWebServiceServerInterceptor;
 
   @Autowired
-  public WebServiceConfig(Tracer tracer, HttpTracing sleuthHttpTracing) {
-    this.tracer = tracer;
-    this.sleuthHttpTracing = sleuthHttpTracing;
+  public WebServiceConfig(TraceWebServiceServerInterceptor traceWebServiceServerInterceptor) {
+    this.traceWebServiceServerInterceptor = traceWebServiceServerInterceptor;
   }
 
   @Bean
@@ -49,5 +48,11 @@ public class WebServiceConfig extends WsConfigurerAdapter {
   @Bean
   public XsdSchema countriesSchema() {
     return new SimpleXsdSchema(new ClassPathResource("service.xsd"));
+  }
+
+  @Override
+  public void addInterceptors(List<EndpointInterceptor> interceptors) {
+    interceptors.add(traceWebServiceServerInterceptor);
+    super.addInterceptors(interceptors);
   }
 }
