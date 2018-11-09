@@ -1,68 +1,13 @@
-Index: shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/DefaultSleuthAndZipkinConfiguration.java
-IDEA additional info:
-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
-<+>UTF-8
-===================================================================
---- shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/DefaultSleuthAndZipkinConfiguration.java	(revision b9c9ff07cff39042683969e0bbf03fce890c1da7)
-+++ shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/DefaultSleuthAndZipkinConfiguration.java	(date 1522698595000)
-@@ -1,31 +1,8 @@
- package eu.luminis.breed.sleuthzipkin.configuration;
- 
--import brave.Tracer;
--import org.springframework.cloud.sleuth.instrument.web.TraceWebServletAutoConfiguration;
--import org.springframework.context.annotation.Bean;
- import org.springframework.context.annotation.Configuration;
--import org.springframework.core.annotation.Order;
--import org.springframework.web.filter.GenericFilterBean;
- 
- @Configuration
- public class DefaultSleuthAndZipkinConfiguration {
--  /**
--   * Define a sampler. Default is NEVER, but for this demonstration we use ALWAYS.
--   * This will export all spans to zipkin. See https://cloud.spring.io/spring-cloud-sleuth/multi/multi__sampling.html
--   */
--//  @Bean
--//  public Sampler defaultSampler() {
--//    return Sampler.ALWAYS_SAMPLE;
--//  }
- 
--
--  /**
--   * Our custom trace filter which will ensure a conversation id can be passed along.
--   * We load this filter after the Tracefilter (which is the filter which actually starts/continues/handles our traces & spans.
--   */
--  @Bean
--  @Order(TraceWebServletAutoConfiguration.TRACING_FILTER_ORDER + 1)
--  public GenericFilterBean customTraceFilter(Tracer tracer) {
--    return new CustomTraceFilter(tracer);
--  }
- }
-Index: shared-library/src/main/resources/application-default.yml
-IDEA additional info:
-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
-<+>UTF-8
-===================================================================
---- shared-library/src/main/resources/application-default.yml	(revision a3793265705a1d09621f5762a9be89aa311c2c9d)
-+++ shared-library/src/main/resources/application-default.yml	(date 1522703976000)
-@@ -4,7 +4,6 @@
-       poll-interval: 3s
-       quiet-period: 2999ms
-   sleuth:
--    propagation-keys: X-B3-CONVID
-     sampler:
-       probability: 1
- logging:
 Index: shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/CustomTraceFilter.java
 IDEA additional info:
 Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 <+>UTF-8
 ===================================================================
---- shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/CustomTraceFilter.java	(revision b9c9ff07cff39042683969e0bbf03fce890c1da7)
-+++ shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/CustomTraceFilter.java	(date 1522698568000)
-@@ -1,48 +1,0 @@
+--- shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/CustomTraceFilter.java	(revision 4e13598a765046c17af00dc090c6a5aa0c64804a)
++++ shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/CustomTraceFilter.java	(date 1541769363000)
+@@ -1,46 +1,0 @@
 -package eu.luminis.breed.sleuthzipkin.configuration;
 -
--import brave.Span;
 -import brave.Tracer;
 -import brave.propagation.ExtraFieldPropagation;
 -import java.io.IOException;
@@ -88,14 +33,13 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 -  @Override
 -  public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 -    String existingConversationId = ExtraFieldPropagation.get(TAG_NAME);
--    Span span = tracer.currentSpan();
 -    if (existingConversationId == null) {
 -      //if field propagation is null, we will generate our own in the next few lines, thus starting a new conversation.
 -      existingConversationId = UUID.randomUUID().toString();
 -      ExtraFieldPropagation.set(TAG_NAME, existingConversationId);
 -    }
--    //This ensures that the id is passed to zipkin
--    span.tag(TAG_NAME, existingConversationId);
+-    //By adding a tag to the current span, this ensures that the id is passed to zipkin
+-    tracer.currentSpanCustomizer().tag(TAG_NAME, existingConversationId);
 -    //This ensures that the id is passed in our MCD for logging purposes
 -    MDC.put(TAG_NAME, existingConversationId);
 -    //Will ensure the conversation id is also available in the response for the client
@@ -108,37 +52,13 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 -    filterChain.doFilter(servletRequest, servletResponse);
 -  }
 -}
-Index: shared-library/src/main/resources/default-logback.xml
-IDEA additional info:
-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
-<+>UTF-8
-===================================================================
---- shared-library/src/main/resources/default-logback.xml	(revision b9c9ff07cff39042683969e0bbf03fce890c1da7)
-+++ shared-library/src/main/resources/default-logback.xml	(date 1522698568000)
-@@ -2,7 +2,7 @@
-     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-       <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-         <pattern>
--          %d{yyyy-MM-dd HH:mm:ss} [%thread] [%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{X-B3-CONVID:-}] %-5level %logger{36} - %msg%n
-+          %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
-         </pattern>
-       </encoder>
-     </appender>
-@@ -18,7 +18,6 @@
-       <timestampPattern>yyyy-MM-dd HH:mm:ss,SSSS</timestampPattern>
-       <maximumMessageSize>8192</maximumMessageSize>
-       <!-- This are fields using MDC -->
--      <dynamicMdcFields>X-(.*)</dynamicMdcFields>
-       <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-         <level>INFO</level>
-       </filter>
 Index: pom.xml
 IDEA additional info:
 Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 <+>UTF-8
 ===================================================================
---- pom.xml	(revision b9c9ff07cff39042683969e0bbf03fce890c1da7)
-+++ pom.xml	(date 1522698478000)
+--- pom.xml	(revision 4e13598a765046c17af00dc090c6a5aa0c64804a)
++++ pom.xml	(date 1541769917000)
 @@ -24,15 +24,6 @@
    </parent>
  
@@ -174,3 +94,37 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
    <build>
      <plugins>
        <plugin>
+Index: shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/DefaultSleuthAndZipkinConfiguration.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/DefaultSleuthAndZipkinConfiguration.java	(revision 4e13598a765046c17af00dc090c6a5aa0c64804a)
++++ shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/DefaultSleuthAndZipkinConfiguration.java	(date 1541769363000)
+@@ -1,11 +1,6 @@
+ package eu.luminis.breed.sleuthzipkin.configuration;
+ 
+-import brave.Tracer;
+-import org.springframework.cloud.sleuth.instrument.web.TraceWebServletAutoConfiguration;
+-import org.springframework.context.annotation.Bean;
+ import org.springframework.context.annotation.Configuration;
+-import org.springframework.core.annotation.Order;
+-import org.springframework.web.filter.GenericFilterBean;
+ 
+ @Configuration
+ public class DefaultSleuthAndZipkinConfiguration {
+@@ -18,14 +13,4 @@
+ //    return Sampler.ALWAYS_SAMPLE;
+ //  }
+ 
+-
+-  /**
+-   * Our custom trace filter which will ensure a conversation id can be passed along.
+-   * We load this filter after the Tracefilter (which is the filter which actually starts/continues/handles our traces & spans.
+-   */
+-  @Bean
+-  @Order(TraceWebServletAutoConfiguration.TRACING_FILTER_ORDER + 1)
+-  public GenericFilterBean customTraceFilter(Tracer tracer) {
+-    return new CustomTraceFilter(tracer);
+-  }
+ }
