@@ -11,12 +11,18 @@ function ToasterModal(){
     html.getElementById("text").innerHTML = text;
     newChild.innerHTML = html.body.innerHTML;
     newChild.classList.add('show');
+    const onClick = ()=>{
+      newChild.classList.remove('show');
+      newChild.classList.add('close');
+    };
+    newChild.addEventListener("click", onClick);
     setTimeout(function(){
       newChild.classList.remove('show');
       newChild.classList.add('close');
     }, 3000);
     setTimeout(function(){
       newChild.classList.remove('close');
+      newChild.removeEventListener("click", onClick);
     }, 5000);
   }
 
