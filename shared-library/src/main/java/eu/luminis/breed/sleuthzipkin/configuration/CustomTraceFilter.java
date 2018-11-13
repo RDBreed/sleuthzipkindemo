@@ -10,8 +10,17 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.MDC;
+import org.springframework.cloud.sleuth.instrument.web.TraceWebServletAutoConfiguration;
 import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
+/**
+ * Our custom trace filter which will ensure a conversation id can be passed along.
+ * We load this filter after the Tracefilter (which is the filter which actually starts/continues/handles our traces & spans.
+ */
+@Component
+@Order(TraceWebServletAutoConfiguration.TRACING_FILTER_ORDER + 1)
 public class CustomTraceFilter extends GenericFilterBean {
 
   private final Tracer tracer;
@@ -33,6 +42,7 @@ public class CustomTraceFilter extends GenericFilterBean {
     //By adding a tag to the current span, this ensures that the id is passed to zipkin
     tracer.currentSpanCustomizer().tag(TAG_NAME, existingConversationId);
     //This ensures that the id is passed in our MCD for logging purposes
+    //Can be replaced with spring.sleuth.log.slf4j.whitelisted-mdc-keys property in Greenwich release
     MDC.put(TAG_NAME, existingConversationId);
     //Will ensure the conversation id is also available in the response for the client
     HttpServletResponse response = (HttpServletResponse) servletResponse;
