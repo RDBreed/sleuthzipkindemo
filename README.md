@@ -1,6 +1,8 @@
 # Demo of Sleuth & Zipkin
 
 This is a demonstration of how to use Sleuth, Zipkin & an ELK stack for tracing requests.
+## NOTE
+If you are looking for the same code as used in the presentation on DevCon or Devoxx, please take a look at the breakfast-demo branch: https://github.com/RDBreed/sleuthzipkindemo/tree/breakfast-demo
 ## HOWTO
 To start ELK (Elasticsearch, Logstash, Kibana) & the Zipkin Server, ensure that you have **Docker** & **Docker-compose** installed.
 In the root you can run ELK & Zipkin with `docker-compose up monitoring`. 
