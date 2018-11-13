@@ -1,4 +1,4 @@
-package eu.luminis.breed.sleuthzipkin;
+package eu.luminis.breed.sleuthzipkin.integration;
 
 import static org.junit.Assert.assertNotNull;
 

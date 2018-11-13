@@ -1,7 +1,7 @@
-package eu.luminis.breed.sleuthzipkin;
+package eu.luminis.breed.sleuthzipkin.integration;
 
 
-import static eu.luminis.breed.sleuthzipkin.BreakFastServiceApi.TAG_NAME;
+import static eu.luminis.breed.sleuthzipkin.integration.BreakFastServiceApi.TAG_NAME;
 
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
