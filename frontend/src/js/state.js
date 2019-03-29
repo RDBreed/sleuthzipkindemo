@@ -1,4 +1,4 @@
-function PropertyState() {
+export function PropertyState() {
   let conversationId = null;
   let baseUrl = 'http://localhost:8081';
 

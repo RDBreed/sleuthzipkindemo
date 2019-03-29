@@ -1,4 +1,8 @@
-function Bread() {
+import {DOMFunctions} from './dom-functions';
+import {ToasterModal} from './toaster-modal';
+import {Http} from './http';
+
+export function Bread() {
   const Functions = new DOMFunctions();
   const Modal = new ToasterModal();
 

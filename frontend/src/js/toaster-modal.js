@@ -1,4 +1,4 @@
-function ToasterModal(){
+export function ToasterModal(){
   const parser = new DOMParser();
 
   function openModal(title, text){

@@ -1,13 +1,14 @@
-function Http () {
+export function Http () {
   /**
    * Helper for http calls
    * @param method
    * @param url
+   * @param conversationId
    * @param data
    * @returns {Promise}
    */
-  function makeRequest(method,url,conversationId, data) {
-    var data = data || '';
+  function makeRequest(method, url, conversationId, data) {
+    const theData = data || '';
     // Return a new promise.
     return new Promise(function(resolve, reject) {
       var req = new XMLHttpRequest();
@@ -18,7 +19,7 @@ function Http () {
         req.setRequestHeader("x-b3-convid", conversationId);
       }
       req.onload = function() {
-        if (req.status == 200) {
+        if (req.status === 200) {
           resolve(req);
         }
         else {
@@ -28,7 +29,7 @@ function Http () {
       req.onerror = function() {
         reject(Error("Something went wrong ... "));
       };
-      req.send(data);
+      req.send(theData);
     });
   }
   this.makeRequest = makeRequest;

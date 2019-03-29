@@ -1,4 +1,4 @@
-function DOMFunctions(){
+export function DOMFunctions(){
   this.displayBlock = function (elementId) {
     document.getElementById(elementId).style.display = 'initial';
   };

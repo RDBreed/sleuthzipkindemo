@@ -1,4 +1,8 @@
-function Coffee(){
+import {ToasterModal} from './toaster-modal';
+import {DOMFunctions} from './dom-functions';
+import {Http} from './http';
+
+export function Coffee(){
   const Functions = new DOMFunctions();
   const Modal = new ToasterModal();
   async function getCoffee(State){
@@ -16,7 +20,8 @@ function Coffee(){
               + xmlHttpResponse.response.power + `<br />Preference: `
               + xmlHttpResponse.response.preference)
         }, function (error) {
-          console.error("Failed!", error);
+            Modal.openModal('Coffee', `Coffee went wrong. Try again!`);
+            console.error("Failed!", error);
         });
   }
   this.getCoffee = getCoffee;

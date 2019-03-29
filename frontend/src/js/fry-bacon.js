@@ -1,4 +1,8 @@
-function Bacon(){
+import {DOMFunctions} from './dom-functions';
+import {ToasterModal} from './toaster-modal';
+import {Http} from './http';
+
+export function Bacon(){
   const Functions = new DOMFunctions();
   const Modal = new ToasterModal();
   async function getFriedBacon(State) {
@@ -15,7 +19,8 @@ function Bacon(){
           Modal.openModal("Bacon", `Bacon is fried:<br />Preference: `
               + xmlHttpResponse.response.preference)
         }, function (error) {
-          console.error("Failed!", error);
+            Modal.openModal('Bacon', `Bacon frying went wrong. Try again!`);
+            console.error("Failed!", error);
         });
   };
   this.getFriedBacon = getFriedBacon;

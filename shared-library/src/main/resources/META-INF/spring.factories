@@ -1,3 +1,0 @@
-# Auto Configuration
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-eu.luminis.breed.sleuthzipkin.configuration.DefaultSleuthAndZipkinConfiguration
