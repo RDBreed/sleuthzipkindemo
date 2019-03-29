@@ -4,8 +4,14 @@ spring:
       poll-interval: 3s
       quiet-period: 2999ms
   sleuth:
+    # This ensures the header is passed/propagated through the services
     propagation-keys: X-B3-CONVID
+    log:
+      slf4j:
+        # This ensures that the id is passed in our MDC for logging purposes
+        whitelisted-mdc-keys: X-B3-CONVID
     sampler:
+      # This ensures every span is sampled
       probability: 1
 logging:
   level:
