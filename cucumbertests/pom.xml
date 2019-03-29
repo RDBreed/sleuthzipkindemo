@@ -8,7 +8,6 @@
     <groupId>eu.luminis.breed</groupId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>eu.luminis.breed</groupId>
   <artifactId>cucumber-tests</artifactId>
   <dependencies>
     <dependency>
@@ -17,34 +16,34 @@
       <version>0.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <groupId>info.cukes</groupId>
+      <groupId>io.cucumber</groupId>
       <artifactId>cucumber-junit</artifactId>
-      <version>1.2.5</version>
+      <version>4.2.6</version>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>info.cukes</groupId>
+      <groupId>io.cucumber</groupId>
       <artifactId>cucumber-core</artifactId>
-      <version>1.2.5</version>
+      <version>4.2.6</version>
       <scope>test</scope>
     </dependency>
     <!-- simple dependency injection -->
     <dependency>
-      <groupId>info.cukes</groupId>
+      <groupId>io.cucumber</groupId>
       <artifactId>cucumber-picocontainer</artifactId>
-      <version>1.2.5</version>
+      <version>4.2.6</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-chrome-driver</artifactId>
-      <version>3.0.1</version>
+      <version>3.141.59</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.awaitility</groupId>
       <artifactId>awaitility</artifactId>
-      <version>3.1.2</version>
+      <version>3.1.6</version>
       <scope>test</scope>
     </dependency>
     <dependency>

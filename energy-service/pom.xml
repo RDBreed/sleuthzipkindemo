@@ -8,7 +8,6 @@
     <groupId>eu.luminis.breed</groupId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>eu.luminis.breed</groupId>
   <artifactId>energy-service</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
