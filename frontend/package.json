@@ -15,7 +15,8 @@
   "scripts": {
     "test": "echo \\\"Error: no test specified\\\" && exit 1",
     "build": "webpack",
-    "start": "webpack-dev-server --hot --inline --port 8080"
+    "start": "webpack-dev-server --hot --inline --port 8080",
+    "start-docker": "webpack-dev-server --hot --inline --config webpack.docker.js --port 8080"
   },
   "keywords": [
     "Breakfast",
