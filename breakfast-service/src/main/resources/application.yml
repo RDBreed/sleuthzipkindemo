@@ -1,0 +1,6 @@
+spring:
+    application:
+        name: breakfast-service
+server:
+  port: 8081
+  use-forward-headers: true

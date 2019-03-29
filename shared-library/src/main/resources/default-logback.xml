@@ -1,43 +1,39 @@
-  <included>
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-      <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-        <pattern>
-          %d{yyyy-MM-dd HH:mm:ss} [%thread] [%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{X-B3-CONVID:-}] %-5level %logger{36} - %msg%n
-        </pattern>
-      </encoder>
-    </appender>
+<included>
+  <property name="LOGSTASH_HOST" value="localhost" />
+  <springProfile name="docker">
+    <property name="LOGSTASH_HOST" value="elk" />
+  </springProfile>
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>
+        %d{yyyy-MM-dd HH:mm:ss} [%thread] [%X{X-B3-TraceId:-},%X{X-B3-SpanId:-},%X{X-Span-Export:-},%X{X-B3-CONVID:-}] %-5level %logger{36} - %msg%n
+      </pattern>
+    </encoder>
+  </appender>
+  <appender name="GELF" class="de.appelgriepsch.logback.GelfAppender">
+    <server>${LOGSTASH_HOST}</server>
+    <port>12201</port>
+    <hostName>localhost</hostName>
+    <protocol>UDP</protocol>
+    <includeSource>true</includeSource>
+    <includeMDC>true</includeMDC>
+    <includeLevelName>true</includeLevelName>
+    <queueSize>512</queueSize>
+    <connectTimeout>1000</connectTimeout>
+    <reconnectDelay>500</reconnectDelay>
+    <additionalFields>applicationName=${APP_NAME}</additionalFields>
+  </appender>
 
-    <appender name="GELF" class="biz.paluch.logging.gelf.logback.GelfLogbackAppender">
-      <host>udp:localhost</host>
-      <port>12201</port>
-      <version>1.1</version>
-      <facility>${APP_NAME}</facility>
-      <extractStackTrace>true</extractStackTrace>
-      <filterStackTrace>true</filterStackTrace>
-      <mdcProfiling>true</mdcProfiling>
-      <timestampPattern>yyyy-MM-dd HH:mm:ss,SSSS</timestampPattern>
-      <maximumMessageSize>8192</maximumMessageSize>
-      <!-- This are fields using MDC -->
-      <dynamicMdcFields>X-(.*)</dynamicMdcFields>
-      <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-        <level>INFO</level>
-      </filter>
-    </appender>
-
-    <appender name="GELF-DOCKER" class="biz.paluch.logging.gelf.logback.GelfLogbackAppender">
-      <host>udp:elk</host>
-      <port>12201</port>
-      <version>1.1</version>
-      <facility>${APP_NAME}</facility>
-      <extractStackTrace>true</extractStackTrace>
-      <filterStackTrace>true</filterStackTrace>
-      <mdcProfiling>true</mdcProfiling>
-      <timestampPattern>yyyy-MM-dd HH:mm:ss,SSSS</timestampPattern>
-      <maximumMessageSize>8192</maximumMessageSize>
-      <!-- This are fields using MDC -->
-      <dynamicMdcFields>X-(.*)</dynamicMdcFields>
-      <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-        <level>INFO</level>
-      </filter>
-    </appender>
+    <logger name="logging.level.org.springframework.web.servlet.DispatcherServlet" level="debug" additivity="false">
+      <appender-ref ref="STDOUT" />
+      <appender-ref ref="GELF" />
+    </logger>
+    <logger name="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" level="info" additivity="false">
+      <appender-ref ref="STDOUT" />
+      <appender-ref ref="GELF" />
+    </logger>
+    <root level="info">
+      <appender-ref ref="STDOUT" />
+      <appender-ref ref="GELF" />
+    </root>
   </included>

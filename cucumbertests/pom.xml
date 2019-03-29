@@ -12,12 +12,6 @@
   <artifactId>cucumber-tests</artifactId>
   <dependencies>
     <dependency>
-      <groupId>info.cukes</groupId>
-      <artifactId>cucumber-java</artifactId>
-      <version>1.2.5</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>eu.luminis.breed</groupId>
       <artifactId>shared-library</artifactId>
       <version>0.0.1-SNAPSHOT</version>
@@ -34,6 +28,26 @@
       <version>1.2.5</version>
       <scope>test</scope>
     </dependency>
+    <!-- simple dependency injection -->
+    <dependency>
+      <groupId>info.cukes</groupId>
+      <artifactId>cucumber-picocontainer</artifactId>
+      <version>1.2.5</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-chrome-driver</artifactId>
+      <version>3.0.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.awaitility</groupId>
+      <artifactId>awaitility</artifactId>
+      <version>3.1.2</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <build>

@@ -1,36 +1,41 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="sleuthzipkin.breed.luminis.eu"
   targetNamespace="sleuthzipkin.breed.luminis.eu" elementFormDefault="qualified">
 
-  <xsd:element name="getCountryRequest">
+  <xsd:element name="getEnergyRequest">
     <xsd:complexType>
       <xsd:sequence>
-        <xsd:element name="name" type="xsd:string"/>
+        <xsd:element name="name" type="tns:device"/>
       </xsd:sequence>
     </xsd:complexType>
   </xsd:element>
 
-  <xsd:element name="getCountryResponse">
+  <xsd:element name="getEnergyResponse">
     <xsd:complexType>
       <xsd:sequence>
-        <xsd:element name="country" type="tns:country"/>
+        <xsd:element name="energy" type="tns:energy"/>
       </xsd:sequence>
     </xsd:complexType>
   </xsd:element>
 
-  <xsd:complexType name="country">
+  <xsd:complexType name="energy">
     <xsd:sequence>
-      <xsd:element name="name" type="xsd:string"/>
-      <xsd:element name="population" type="xsd:int"/>
-      <xsd:element name="capital" type="xsd:string"/>
-      <xsd:element name="currency" type="tns:currency"/>
+      <xsd:element name="value" type="xsd:int"/>
+      <xsd:element name="unit" type="tns:unit"/>
     </xsd:sequence>
   </xsd:complexType>
 
-  <xsd:simpleType name="currency">
+  <xsd:simpleType name="unit">
     <xsd:restriction base="xsd:string">
-      <xsd:enumeration value="GBP"/>
-      <xsd:enumeration value="EUR"/>
-      <xsd:enumeration value="PLN"/>
+      <xsd:enumeration value="kWh"/>
+      <xsd:enumeration value="m3"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="device">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="toaster"/>
+      <xsd:enumeration value="stove"/>
+      <xsd:enumeration value="coffeemachine"/>
     </xsd:restriction>
   </xsd:simpleType>
 </xsd:schema>

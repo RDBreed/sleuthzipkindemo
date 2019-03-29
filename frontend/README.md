@@ -1,0 +1,3 @@
+You can start this project with a simple http server, such as NPM's simple-autoreload-server or local-web-server dependent on your needs...
+ws --https --spa index.html
+autoreload-server

@@ -2,14 +2,13 @@ version: '3'
 services:
   monitoring:
     image: tianon/true
-    restart: "no"
     depends_on:
       - elk
       - zipkin
   services:
     image: tianon/true
-    restart: "no"
     depends_on:
+      - frontend
       - service-a
       - service-b
       - service-c
@@ -32,38 +31,43 @@ services:
       - elk
     networks:
       - servicesnetwork
+  frontend:
+    build: ./frontend
+    networks:
+      - servicesnetwork
+    ports:
+      - "8080:8080"
   service-a:
-    build: ./service_a
+    build: ./breakfast-service
     networks:
       - servicesnetwork
     ports:
       - "8081:8081"
     environment:
-      - "SPRING_PROFILES_ACTIVE=docker"
+      - "SPRING_PROFILES_ACTIVE=default,docker"
   service-b:
-    build: ./service_b
+    build: ./machine-service
     networks:
       - servicesnetwork
     environment:
-      - "SPRING_PROFILES_ACTIVE=docker"
+      - "SPRING_PROFILES_ACTIVE=default,docker"
   service-c:
-    build: ./service_c
+    build: ./preference-service
     networks:
       - servicesnetwork
     environment:
-      - "SPRING_PROFILES_ACTIVE=docker"
+      - "SPRING_PROFILES_ACTIVE=default,docker"
   service-d:
-    build: ./service_d
+    build: ./temperature-service
     networks:
       - servicesnetwork
     environment:
-      - "SPRING_PROFILES_ACTIVE=docker"
+      - "SPRING_PROFILES_ACTIVE=default,docker"
   soap-service:
-    build: ./soapservice
+    build: ./energy-service
     networks:
       - servicesnetwork
     environment:
-      - "SPRING_PROFILES_ACTIVE=docker"
+      - "SPRING_PROFILES_ACTIVE=default,docker"
 networks:
   servicesnetwork:
-  testnetwork:

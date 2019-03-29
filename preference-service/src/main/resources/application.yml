@@ -1,0 +1,5 @@
+spring:
+    application:
+        name: preference-service
+server:
+  port: 8083

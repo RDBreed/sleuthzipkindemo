@@ -1,0 +1,5 @@
+spring:
+    application:
+        name: temperature-service
+server:
+  port: 8084
