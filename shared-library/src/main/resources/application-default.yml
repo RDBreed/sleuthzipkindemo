@@ -9,7 +9,9 @@ spring:
     log:
       slf4j:
         # This ensures that the id is passed in our MDC for logging purposes
-        whitelisted-mdc-keys: X-B3-CONVID
+        # ! not working for first service at this moment, see
+        # also https://github.com/spring-cloud/spring-cloud-sleuth/issues/1220
+#        whitelisted-mdc-keys: X-B3-CONVID
     sampler:
       # This ensures every span is sampled
       probability: 1
