@@ -1,8 +1,4 @@
 spring:
-  devtools:
-    restart:
-      poll-interval: 3s
-      quiet-period: 2999ms
   sleuth:
     # This ensures the header is passed/propagated through the services
     propagation-keys: X-B3-CONVID
@@ -15,6 +11,10 @@ spring:
     sampler:
       # This ensures every span is sampled
       probability: 1
+  devtools:
+    restart:
+      poll-interval: 3s
+      quiet-period: 2999ms
 logging:
   level:
     org.springframework.web: DEBUG

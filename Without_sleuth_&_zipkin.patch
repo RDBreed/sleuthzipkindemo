@@ -1,66 +1,118 @@
+Index: shared-library/src/main/resources/application-default.yml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- shared-library/src/main/resources/application-default.yml	(revision 7930fedffe18c47194330f32a1e9811ea0cb7abc)
++++ shared-library/src/main/resources/application-default.yml	(date 1554037715000)
+@@ -3,18 +3,6 @@
+     restart:
+       poll-interval: 3s
+       quiet-period: 2999ms
+-  sleuth:
+-    # This ensures the header is passed/propagated through the services
+-    propagation-keys: X-B3-CONVID
+-    log:
+-      slf4j:
+-        # This ensures that the id is passed in our MDC for logging purposes
+-        # ! not working for first service at this moment, see
+-        # also https://github.com/spring-cloud/spring-cloud-sleuth/issues/1220
+-#        whitelisted-mdc-keys: X-B3-CONVID
+-    sampler:
+-      # This ensures every span is sampled
+-      probability: 1
+ logging:
+   level:
+     org.springframework.web: DEBUG
 Index: shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/CustomTraceFilter.java
 IDEA additional info:
 Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 <+>UTF-8
 ===================================================================
---- shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/CustomTraceFilter.java	(revision 4e13598a765046c17af00dc090c6a5aa0c64804a)
-+++ shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/CustomTraceFilter.java	(date 1541769363000)
-@@ -1,46 +1,0 @@
+--- shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/CustomTraceFilter.java	(revision 7930fedffe18c47194330f32a1e9811ea0cb7abc)
++++ shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/CustomTraceFilter.java	(date 1554037180000)
+@@ -1,58 +1,0 @@
 -package eu.luminis.breed.sleuthzipkin.configuration;
 -
 -import brave.Tracer;
 -import brave.propagation.ExtraFieldPropagation;
--import java.io.IOException;
--import java.util.UUID;
+-import org.slf4j.MDC;
+-import org.springframework.cloud.sleuth.instrument.web.TraceWebServletAutoConfiguration;
+-import org.springframework.core.annotation.Order;
+-import org.springframework.stereotype.Component;
+-import org.springframework.web.filter.GenericFilterBean;
+-
 -import javax.servlet.FilterChain;
 -import javax.servlet.ServletException;
 -import javax.servlet.ServletRequest;
 -import javax.servlet.ServletResponse;
 -import javax.servlet.http.HttpServletResponse;
--import org.slf4j.MDC;
--import org.springframework.web.filter.GenericFilterBean;
+-import java.io.IOException;
+-import java.util.UUID;
 -
+-/**
+- * Our custom trace filter which will ensure a conversation id can be passed along.
+- * We load this filter after the Tracefilter (which is the filter which actually starts/continues/handles our traces & spans.
+- * We still put the MDC ourselves, because unfortunately
+- * {@link org.springframework.cloud.sleuth.log.Slf4jScopeDecorator} will be too late if the propagation field is added in this method...
+- */
+-@Component
+-@Order(TraceWebServletAutoConfiguration.TRACING_FILTER_ORDER + 1)
 -public class CustomTraceFilter extends GenericFilterBean {
 -
--  private final Tracer tracer;
+-    private final Tracer tracer;
 -
--  public static final String TAG_NAME = "X-B3-CONVID";
+-    public static final String TAG_NAME = "X-B3-CONVID";
 -
--  public CustomTraceFilter(Tracer tracer) {
--    this.tracer = tracer;
--  }
--
--  @Override
--  public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
--    String existingConversationId = ExtraFieldPropagation.get(TAG_NAME);
--    if (existingConversationId == null) {
--      //if field propagation is null, we will generate our own in the next few lines, thus starting a new conversation.
--      existingConversationId = UUID.randomUUID().toString();
--      ExtraFieldPropagation.set(TAG_NAME, existingConversationId);
+-    public CustomTraceFilter(Tracer tracer) {
+-        this.tracer = tracer;
 -    }
--    //By adding a tag to the current span, this ensures that the id is passed to zipkin
--    tracer.currentSpanCustomizer().tag(TAG_NAME, existingConversationId);
--    //This ensures that the id is passed in our MCD for logging purposes
--    MDC.put(TAG_NAME, existingConversationId);
--    //Will ensure the conversation id is also available in the response for the client
--    HttpServletResponse response = (HttpServletResponse) servletResponse;
--    if (response != null) {
--      response.addHeader(TAG_NAME, existingConversationId);
--      //Enabling for a frontend that they may use this header
--      response.addHeader("Access-Control-Expose-Headers", TAG_NAME);
+-
+-    @Override
+-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+-        String existingConversationId = ExtraFieldPropagation.get(TAG_NAME);
+-        if (existingConversationId == null) {
+-            //if field propagation is null, we will generate our own in the next few lines, thus starting a new conversation.
+-            existingConversationId = UUID.randomUUID().toString();
+-            ExtraFieldPropagation.set(TAG_NAME, existingConversationId);
+-        }
+-        //By adding a tag to the current span, this ensures that the id is passed to zipkin
+-        tracer.currentSpanCustomizer().tag(TAG_NAME, existingConversationId);
+-        // Still needed as unfortunately Slf4jScopeDecorator will be too late when we just added the id...
+-        MDC.put(TAG_NAME, existingConversationId);
+-        //Will ensure the conversation id is also available in the response for the client
+-        HttpServletResponse response = (HttpServletResponse) servletResponse;
+-        if (response != null) {
+-            response.addHeader(TAG_NAME, existingConversationId);
+-            //Enabling for a frontend that they may use this header
+-            response.addHeader("Access-Control-Expose-Headers", TAG_NAME);
+-        }
+-        filterChain.doFilter(servletRequest, servletResponse);
 -    }
--    filterChain.doFilter(servletRequest, servletResponse);
--  }
 -}
 Index: pom.xml
 IDEA additional info:
 Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 <+>UTF-8
 ===================================================================
---- pom.xml	(revision 4e13598a765046c17af00dc090c6a5aa0c64804a)
-+++ pom.xml	(date 1541769917000)
-@@ -24,15 +24,6 @@
-   </parent>
+--- pom.xml	(revision 7930fedffe18c47194330f32a1e9811ea0cb7abc)
++++ pom.xml	(date 1554037180000)
+@@ -31,28 +31,9 @@
+   </properties>
+ 
+ 
+-  <dependencyManagement>
+-    <dependencies>
+-      <dependency>
+-        <groupId>org.springframework.cloud</groupId>
+-        <artifactId>spring-cloud-sleuth</artifactId>
+-        <version>${spring-cloud.version}</version>
+-        <type>pom</type>
+-        <scope>import</scope>
+-      </dependency>
+-    </dependencies>
+-  </dependencyManagement>
++
  
    <dependencies>
 -    <dependency>
@@ -75,56 +127,3 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
      <dependency>
        <groupId>org.springframework.boot</groupId>
        <artifactId>spring-boot-starter-test</artifactId>
-@@ -67,18 +58,6 @@
-     </dependency>
-   </dependencies>
- 
--  <dependencyManagement>
--    <dependencies>
--      <dependency>
--        <groupId>org.springframework.cloud</groupId>
--        <artifactId>spring-cloud-sleuth</artifactId>
--        <version>${spring-cloud.version}</version>
--        <type>pom</type>
--        <scope>import</scope>
--      </dependency>
--    </dependencies>
--  </dependencyManagement>
--
-   <build>
-     <plugins>
-       <plugin>
-Index: shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/DefaultSleuthAndZipkinConfiguration.java
-IDEA additional info:
-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
-<+>UTF-8
-===================================================================
---- shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/DefaultSleuthAndZipkinConfiguration.java	(revision 4e13598a765046c17af00dc090c6a5aa0c64804a)
-+++ shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/DefaultSleuthAndZipkinConfiguration.java	(date 1541769363000)
-@@ -1,11 +1,6 @@
- package eu.luminis.breed.sleuthzipkin.configuration;
- 
--import brave.Tracer;
--import org.springframework.cloud.sleuth.instrument.web.TraceWebServletAutoConfiguration;
--import org.springframework.context.annotation.Bean;
- import org.springframework.context.annotation.Configuration;
--import org.springframework.core.annotation.Order;
--import org.springframework.web.filter.GenericFilterBean;
- 
- @Configuration
- public class DefaultSleuthAndZipkinConfiguration {
-@@ -18,14 +13,4 @@
- //    return Sampler.ALWAYS_SAMPLE;
- //  }
- 
--
--  /**
--   * Our custom trace filter which will ensure a conversation id can be passed along.
--   * We load this filter after the Tracefilter (which is the filter which actually starts/continues/handles our traces & spans.
--   */
--  @Bean
--  @Order(TraceWebServletAutoConfiguration.TRACING_FILTER_ORDER + 1)
--  public GenericFilterBean customTraceFilter(Tracer tracer) {
--    return new CustomTraceFilter(tracer);
--  }
- }
