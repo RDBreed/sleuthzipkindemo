@@ -3,12 +3,10 @@ IDEA additional info:
 Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 <+>UTF-8
 ===================================================================
---- shared-library/src/main/resources/application-default.yml	(revision 7930fedffe18c47194330f32a1e9811ea0cb7abc)
-+++ shared-library/src/main/resources/application-default.yml	(date 1554037715000)
-@@ -3,18 +3,6 @@
-     restart:
-       poll-interval: 3s
-       quiet-period: 2999ms
+--- shared-library/src/main/resources/application-default.yml	(revision 91bf24ded9710078e4598da48ec374420249eff7)
++++ shared-library/src/main/resources/application-default.yml	(date 1554038631000)
+@@ -1,16 +1,4 @@
+ spring:
 -  sleuth:
 -    # This ensures the header is passed/propagated through the services
 -    propagation-keys: X-B3-CONVID
@@ -21,16 +19,16 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 -    sampler:
 -      # This ensures every span is sampled
 -      probability: 1
- logging:
-   level:
-     org.springframework.web: DEBUG
+   devtools:
+     restart:
+       poll-interval: 3s
 Index: shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/CustomTraceFilter.java
 IDEA additional info:
 Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 <+>UTF-8
 ===================================================================
---- shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/CustomTraceFilter.java	(revision 7930fedffe18c47194330f32a1e9811ea0cb7abc)
-+++ shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/CustomTraceFilter.java	(date 1554037180000)
+--- shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/CustomTraceFilter.java	(revision 91bf24ded9710078e4598da48ec374420249eff7)
++++ shared-library/src/main/java/eu/luminis/breed/sleuthzipkin/configuration/CustomTraceFilter.java	(date 1554038596000)
 @@ -1,58 +1,0 @@
 -package eu.luminis.breed.sleuthzipkin.configuration;
 -
@@ -95,8 +93,8 @@ IDEA additional info:
 Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 <+>UTF-8
 ===================================================================
---- pom.xml	(revision 7930fedffe18c47194330f32a1e9811ea0cb7abc)
-+++ pom.xml	(date 1554037180000)
+--- pom.xml	(revision 91bf24ded9710078e4598da48ec374420249eff7)
++++ pom.xml	(date 1554038596000)
 @@ -31,28 +31,9 @@
    </properties>
  
