@@ -36,7 +36,7 @@
     <dependency>
       <groupId>io.zipkin.brave</groupId>
       <artifactId>brave-instrumentation-http</artifactId>
-      <version>5.1.4</version>
+      <version>${brave.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
