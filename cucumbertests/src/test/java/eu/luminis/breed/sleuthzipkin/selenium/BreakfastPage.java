@@ -66,7 +66,7 @@ public class BreakfastPage {
                 JSONObject params = message.getJSONObject("params");
                 JSONObject response = params.getJSONObject("response");
                 JSONObject headers = response.getJSONObject("headers");
-                if (headers.has("Content-Type") && headers.getString("Content-Type").contains("json")) {
+                if (headers.has("Content-Type") && headers.getString("Content-Type").contains("json")&& !response.getString("url").contains("/health")) {
                     return headers.getString("X-B3-CONVID");
                 }
 
