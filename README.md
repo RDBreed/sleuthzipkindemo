@@ -28,4 +28,3 @@ Add fields like `severity`, `facility`, `message` to view the logs of the servic
 Add `X-B3-SpanId`, `X-B3-TraceId` or even `X-B3-CONVID` to view Sleuth related information.
 
 Go to http://localhost:9411/zipkin/ to view the user interface of Zipkin. Push `Find Traces` to view the traces. You can click on one trace to view the service calls/spans.
-Use http://localhost:8081/a/error/ or http://localhost:8081/a/performance to view different outcomes.
